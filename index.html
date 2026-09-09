@@ -237,7 +237,10 @@
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
                     <h3>🌐 英语八级 + 外企常用词汇 (每日 15 个打卡)</h3>
-                    <button class="btn" onclick="refreshDailyEnglish()" style="background: var(--brand-color);">🔄 手动刷新今日单词</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-danger" onclick="resetEnglishStorage()" style="padding: 6px 12px; font-size: 13px;">重置默认词库</button>
+                        <button class="btn" onclick="refreshDailyEnglish()" style="background: var(--brand-color);">🔄 手动刷新今日单词</button>
+                    </div>
                 </div>
                 <table>
                     <thead><tr><th>#</th><th>商务与专八词汇 / 表达</th><th>释义与高频场景</th></tr></thead>
@@ -359,8 +362,8 @@
         let hrJobs = safeGetStorage('my_hrjobs', [{company: '某外企FMCG', position: 'HR Assistant', status: '面试中'}]);
         let hrStudies = safeGetStorage('my_hrstudies', [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}]);
         
-        // 英语八级 + 外企常用词汇高频词库
-        let englishWords = safeGetStorage('my_english', [
+        // 默认优质丰富的英语八级 + 外企常用词汇高频词库
+        const defaultEnglishWords = [
             {word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'},
             {word: 'Onboarding', mean: '入职引导/新员工入职流程'},
             {word: 'Key Performance Indicator (KPI)', mean: '关键绩效指标'},
@@ -380,9 +383,15 @@
             {word: 'Comprehensive', mean: '全面的/综合的（专八核心词）'},
             {word: 'Substantiate', mean: '证实/证明（专八高频高级词汇）'},
             {word: 'Mitigate', mean: '减轻/缓和风险（高级商务词汇）'},
-            {word: 'Prerequisite', mean: '先决条件/前提（专八核心词）'}
-        ]);
+            {word: 'Prerequisite', mean: '先决条件/前提（专八核心词）'},
+            {word: 'Articulate', mean: '清晰明确地表达（专八高级词汇）'},
+            {word: 'Leverage', mean: '利用/借助...达成目标（外企高频词）'},
+            {word: 'Streamline', mean: '精简流程/使效率化（商务核心词）'},
+            {word: 'Consensus', mean: '共识/一致意见（跨部门沟通常用）'},
+            {word: 'Discretionary', mean: '自由裁量的/自主的（如可支配奖金）'}
+        ];
 
+        let englishWords = safeGetStorage('my_english', defaultEnglishWords);
         let moments = safeGetStorage('my_moments', [{cat: '🐱 养猫日常', desc: '主子今天格外粘人~'}]);
         let photos = safeGetStorage('my_photos', [
             {url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop', caption: '可爱的主子日常 🐾'},
@@ -390,7 +399,6 @@
         ]);
         let memos = safeGetStorage('my_memos', [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}]);
 
-        // 记录每日展示的随机偏移量，支持手动刷新
         let englishOffset = safeGetStorage('my_eng_offset', 0);
 
         function saveData() {
@@ -408,11 +416,35 @@
             renderAll();
         }
 
+        // 一键重置词库按钮（可清除被污染的旧缓存）
+        function resetEnglishStorage() {
+            if(confirm("确定要重置并恢复标准的专八+外企高频词库吗？")) {
+                englishWords = [...defaultEnglishWords];
+                englishOffset = 0;
+                saveData();
+                alert("词库已成功重置！");
+            }
+        }
+
         function refreshDailyEnglish() {
-            if (englishWords.length === 0) return;
-            // 每次点击随机步进或者按 15 步进切换下一批
-            englishOffset = (englishOffset + 15) % englishWords.length;
+            const uniqueList = getUniqueEnglishWords();
+            if (uniqueList.length === 0) return;
+            // 每次点击随机步进切换下一批
+            englishOffset = (englishOffset + 15) % uniqueList.length;
             saveData();
+        }
+
+        // 辅助函数：对当前词库按单词名称去重，防止重复显示
+        function getUniqueEnglishWords() {
+            const seen = new Set();
+            return englishWords.filter(item => {
+                const key = item.word.trim().toLowerCase();
+                if (seen.has(key)) {
+                    return false;
+                }
+                seen.add(key);
+                return true;
+            });
         }
 
         function addIkeaItem() {
@@ -564,12 +596,14 @@
             renderIkea();
             renderPc();
 
-            // 渲染每日 15 个英语单词（基于 englishOffset 偏移和手动刷新）
+            // 渲染每日单词（使用去重后的唯一列表，保证每次展示不重复）
+            const uniqueEnglishList = getUniqueEnglishWords();
             let dailyListHtml = '';
-            if (englishWords.length > 0) {
-                for (let i = 0; i < 15; i++) {
-                    const index = (englishOffset + i) % englishWords.length;
-                    const item = englishWords[index];
+            if (uniqueEnglishList.length > 0) {
+                const count = Math.min(15, uniqueEnglishList.length);
+                for (let i = 0; i < count; i++) {
+                    const index = (englishOffset + i) % uniqueEnglishList.length;
+                    const item = uniqueEnglishList[index];
                     dailyListHtml += `
                         <tr>
                             <td>${i + 1}</td>
