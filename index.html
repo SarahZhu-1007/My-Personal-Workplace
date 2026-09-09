@@ -19,22 +19,21 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         
-        /* 优化高度和溢出，避免在 GitHub Pages 中显示不全 */
         html, body { height: 100%; width: 100%; overflow: hidden; background-color: var(--bg-color); color: var(--text-main); }
         body { display: flex; }
 
         /* 左侧导航 */
-        aside { width: 250px; min-width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 6px; z-index: 10; height: 100%; }
-        .logo-area { font-size: 15px; font-weight: 700; color: var(--brand-color); padding: 0 12px 18px 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { padding: 10px 14px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 10px; user-select: none; }
+        aside { width: 250px; min-width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 4px; z-index: 10; height: 100%; overflow-y: auto; }
+        .logo-area { font-size: 15px; font-weight: 700; color: var(--brand-color); padding: 0 12px 14px 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .nav-item { padding: 9px 12px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 10px; user-select: none; }
         .nav-item:hover { background: #f4f6f5; color: var(--text-main); }
         .nav-item.active { background: #eaf1f0; color: var(--brand-color); font-weight: 600; }
 
         /* 侧边栏底部卡通宠物屋 */
-        .pet-house { margin-top: auto; padding: 12px; background: #f4f6f5; border-radius: 10px; display: flex; align-items: center; justify-content: space-around; font-size: 22px; border: 1px dashed var(--border-color); }
+        .pet-house { margin-top: auto; padding: 10px; background: #f4f6f5; border-radius: 10px; display: flex; align-items: center; justify-content: space-around; font-size: 22px; border: 1px dashed var(--border-color); }
         .pet-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: var(--text-secondary); gap: 2px; cursor: pointer; transition: transform 0.2s; }
         .pet-item:hover { transform: scale(1.15); }
-        .pet-emoji { font-size: 24px; }
+        .pet-emoji { font-size: 22px; }
 
         /* 右侧主体 */
         main { flex-grow: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
@@ -59,13 +58,22 @@
         th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border-color); }
         th { color: var(--text-secondary); font-weight: 600; background: #faf9f6; }
         
-        [contenteditable="true"] { outline: none; border-radius: 4px; padding: 2px 4px; transition: background 0.2s; }
-        [contenteditable="true"]:hover { background: #f4f6f5; }
-        [contenteditable="true"]:focus { background: #fff; box-shadow: 0 0 0 2px var(--brand-color); }
+        /* 悬浮直接编辑美化：带轻微提示边框 */
+        [contenteditable="true"] { outline: none; border-radius: 4px; padding: 2px 6px; transition: all 0.2s; border: 1px dashed transparent; }
+        [contenteditable="true"]:hover { background: #f4f6f5; border-color: #cbd5e0; }
+        [contenteditable="true"]:focus { background: #fff; border-color: var(--brand-color); box-shadow: 0 0 0 2px rgba(90, 125, 124, 0.15); }
 
         .moment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
         .moment-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
         .moment-tag { display: inline-block; font-size: 11px; padding: 2px 6px; background: #eaf1f0; color: var(--brand-color); border-radius: 4px; width: fit-content; }
+
+        /* 相册网格布局 */
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-top: 15px; }
+        .photo-card { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform 0.2s; }
+        .photo-card:hover { transform: translateY(-3px); }
+        .photo-img-wrap { width: 100%; height: 160px; background: #f4f6f5; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .photo-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-info { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
 
         @media(max-width: 768px) {
             html, body { height: auto; overflow: auto; }
@@ -90,6 +98,7 @@
         <div class="nav-item" onclick="switchTab('hr', this)"><span>⚖️</span> HR求职与专业进修</div>
         <div class="nav-item" onclick="switchTab('english', this)"><span>🌐</span> 外企商务英语</div>
         <div class="nav-item" onclick="switchTab('moments', this)"><span>☕</span> 生活小确幸</div>
+        <div class="nav-item" onclick="switchTab('photos', this)"><span>🖼️</span> 个人精美相册</div>
         <div class="nav-item" onclick="switchTab('memos', this)"><span>📝</span> 备忘录</div>
 
         <div class="pet-house" title="你的桌宠小助手">
@@ -108,7 +117,7 @@
         <!-- 1. 宜家员工手册专区 -->
         <div id="tab-ikea" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击单元格文本可直接修改)</span></h3>
+                <h3 style="margin-bottom: 14px;">📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 悬浮并点击任意表格内容可直接修改并自动保存)</span></h3>
                 <div class="form-group">
                     <input type="text" id="ikea-search" placeholder="搜索手册条例/福利政策..." style="flex:2;" oninput="renderIkea()">
                     <button class="btn" onclick="addIkeaItem()">添加记录</button>
@@ -123,7 +132,7 @@
         <!-- 2. P&C 文化专区 -->
         <div id="tab-pc" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">👥 P&C 文化与全员领导力专区 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击单元格文本可直接修改)</span></h3>
+                <h3 style="margin-bottom: 14px;">👥 P&C 文化与全员领导力专区 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本即可直接修改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="pc-title" placeholder="核心价值观 / 领导力要点" style="flex:2;">
                     <input type="text" id="pc-desc" placeholder="具体践行方式" style="flex:2;">
@@ -139,7 +148,7 @@
         <!-- 每日计划 -->
         <div id="tab-daily" class="content-body active">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">🐱 今日待办事项与打卡 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击任意任务文本即可直接修改)</span></h3>
+                <h3 style="margin-bottom: 14px;">🐱 今日待办事项与打卡 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击任务文本直接修改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="daily-input" placeholder="添加今天的小目标..." style="flex:1;">
                     <button class="btn" onclick="addDailyTask()">添加任务</button>
@@ -154,7 +163,7 @@
         <!-- 小红书选题 -->
         <div id="tab-xhs" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">💡 小红书兴趣选题库 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击标题直接修改)</span></h3>
+                <h3 style="margin-bottom: 14px;">💡 小红书兴趣选题库 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击标题直接修改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="xhs-title" placeholder="选题灵感 / 标题方向" style="flex:2;">
                     <select id="xhs-cat" style="flex:1;">
@@ -176,7 +185,7 @@
         <div id="tab-hr" class="content-body">
             <div class="grid-2">
                 <div class="card">
-                    <h3 style="margin-bottom: 14px;">🎯 外企 HR 岗位投递 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击公司/岗位直接改)</span></h3>
+                    <h3 style="margin-bottom: 14px;">🎯 外企 HR 岗位投递 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
                     <div class="form-group">
                         <input type="text" id="hr-company" placeholder="公司名称" style="flex:1;">
                         <input type="text" id="hr-position" placeholder="岗位" style="flex:1;">
@@ -194,7 +203,7 @@
                     </table>
                 </div>
                 <div class="card">
-                    <h3 style="margin-bottom: 14px;">🐶 劳动合同法 & HR进修 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击内容直接改)</span></h3>
+                    <h3 style="margin-bottom: 14px;">🐶 劳动合同法 & HR进修 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
                     <div class="form-group">
                         <input type="text" id="hr-study-topic" placeholder="知识点 / 法条内容" style="flex:2;">
                         <select id="hr-study-type" style="flex:1;">
@@ -215,7 +224,7 @@
         <!-- 外企商务英语 -->
         <div id="tab-english" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">🌐 外企商务英语 / 高频词汇 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击单词或释义直接修改)</span></h3>
+                <h3 style="margin-bottom: 14px;">🌐 外企商务英语 / 高频词汇 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="eng-word" placeholder="商务词汇 / 句型" style="flex:1;">
                     <input type="text" id="eng-mean" placeholder="中文释义 / 场景" style="flex:2;">
@@ -246,10 +255,23 @@
             </div>
         </div>
 
+        <!-- 🖼️ 个人精美相册专区 (新加) -->
+        <div id="tab-photos" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">🖼️ 个人精美相册 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(粘贴图片链接即可展示，悬浮直接修改描述)</span></h3>
+                <div class="form-group">
+                    <input type="text" id="photo-url" placeholder="图片直链 URL (如 https://...)" style="flex:2;">
+                    <input type="text" id="photo-caption" placeholder="图片描述/标题" style="flex:2;">
+                    <button class="btn" onclick="addPhoto()">添加图片</button>
+                </div>
+                <div class="photo-grid" id="photo-container"></div>
+            </div>
+        </div>
+
         <!-- 备忘录 -->
         <div id="tab-memos" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">📝 随手备忘录 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击内容直接修改)</span></h3>
+                <h3 style="margin-bottom: 14px;">📝 随手备忘录 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击内容直接修改)</span></h3>
                 <div class="form-group">
                     <textarea id="memo-input" placeholder="写点备忘..." style="width:100%; height:80px; resize:none;"></textarea>
                     <button class="btn" onclick="addMemo()" style="align-self: flex-end;">保存备忘</button>
@@ -299,6 +321,10 @@
         let hrStudies = JSON.parse(localStorage.getItem('my_hrstudies')) || [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}];
         let englishWords = JSON.parse(localStorage.getItem('my_english')) || [{word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'}];
         let moments = JSON.parse(localStorage.getItem('my_moments')) || [{cat: '🐱 养猫日常', desc: '主子今天格外粘人~'}];
+        let photos = JSON.parse(localStorage.getItem('my_photos')) || [
+            {url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500', caption: '可爱的主子日常 🐾'},
+            {url: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500', caption: '周末的咖啡与工作台 ☕'}
+        ];
         let memos = JSON.parse(localStorage.getItem('my_memos')) || [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}];
 
         function saveData() {
@@ -310,6 +336,7 @@
             localStorage.setItem('my_hrstudies', JSON.stringify(hrStudies));
             localStorage.setItem('my_english', JSON.stringify(englishWords));
             localStorage.setItem('my_moments', JSON.stringify(moments));
+            localStorage.setItem('my_photos', JSON.stringify(photos));
             localStorage.setItem('my_memos', JSON.stringify(memos));
             renderAll();
         }
@@ -317,7 +344,7 @@
         function addIkeaItem() {
             const topic = prompt("请输入核心板块名称:");
             const detail = prompt("请输入政策细则:");
-            const note = prompt("请输入状态/备注 (例如: 核心合规 / 薪酬福利):") || '自定义记录';
+            const note = prompt("请输入状态/备注:") || '自定义记录';
             if(!topic || !detail) return;
             ikeaRules.push({topic, detail, note});
             saveData();
@@ -406,6 +433,18 @@
         function deleteMoment(i) { moments.splice(i, 1); saveData(); }
         function updateMoment(i, val) { moments[i].desc = val; saveData(); }
 
+        function addPhoto() {
+            const url = document.getElementById('photo-url').value.trim();
+            const caption = document.getElementById('photo-caption').value.trim();
+            if(!url) return;
+            photos.unshift({url, caption: caption || '精美图片'});
+            document.getElementById('photo-url').value = '';
+            document.getElementById('photo-caption').value = '';
+            saveData();
+        }
+        function deletePhoto(i) { photos.splice(i, 1); saveData(); }
+        function updatePhoto(i, val) { photos[i].caption = val; saveData(); }
+
         function addMemo() {
             const text = document.getElementById('memo-input').value.trim();
             if(!text) return;
@@ -485,6 +524,15 @@
                     <div class="moment-tag">${m.cat}</div>
                     <p contenteditable="true" onblur="updateMoment(${i}, this.innerText)" style="font-size:13px; color:var(--text-main); min-height:30px;">${m.desc}</p>
                     <button class="btn btn-danger" style="padding:2px 6px;font-size:11px;width:fit-content;margin-top:auto;" onclick="deleteMoment(${i})">删除</button>
+                </div>`).join('');
+
+            document.getElementById('photo-container').innerHTML = photos.map((p, i) => `
+                <div class="photo-card">
+                    <div class="photo-img-wrap"><img src="${p.url}" alt="${p.caption}" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500'"></div>
+                    <div class="photo-info">
+                        <p contenteditable="true" onblur="updatePhoto(${i}, this.innerText)" style="font-size:13px; font-weight:600; color:var(--text-main);">${p.caption}</p>
+                        <button class="btn btn-danger" style="padding:2px 6px;font-size:11px;width:fit-content;margin-top:4px;" onclick="deletePhoto(${i})">删除图片</button>
+                    </div>
                 </div>`).join('');
 
             document.getElementById('memo-table-body').innerHTML = memos.map((m, i) => `
