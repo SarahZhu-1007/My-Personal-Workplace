@@ -1,1 +1,509 @@
-# My-Personal-Workplace
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Workspace</title>
+    <style>
+        :root {
+            --bg-color: #fcfbf9;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #eae5df;
+            --text-main: #2d3748;
+            --text-secondary: #718096;
+            --brand-color: #5a7d7c;
+            --brand-hover: #456362;
+            --danger-color: #e53e3e;
+            --shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        /* 左侧导航 */
+        aside { width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 6px; z-index: 10; position: relative; }
+        .logo-area { font-size: 15px; font-weight: 700; color: var(--brand-color); padding: 0 12px 18px 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .nav-item { padding: 10px 14px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover { background: #f4f6f5; color: var(--text-main); }
+        .nav-item.active { background: #eaf1f0; color: var(--brand-color); font-weight: 600; }
+
+        /* 侧边栏底部卡通宠物屋 */
+        .pet-house { margin-top: auto; padding: 12px; background: #f4f6f5; border-radius: 10px; display: flex; align-items: center; justify-content: space-around; font-size: 22px; border: 1px dashed var(--border-color); }
+        .pet-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: var(--text-secondary); gap: 2px; cursor: pointer; transition: transform 0.2s; }
+        .pet-item:hover { transform: scale(1.15); }
+        .pet-emoji { font-size: 24px; }
+
+        /* 右侧主体 */
+        main { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
+        header { height: 64px; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+        .header-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .header-info { font-size: 13px; color: var(--text-secondary); }
+
+        .content-body { flex-grow: 1; padding: 24px 32px; overflow-y: auto; display: none; }
+        .content-body.active { display: block; }
+
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .form-group { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        input, select, textarea { padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff; color: var(--text-main); }
+        input:focus, select:focus, textarea:focus { border-color: var(--brand-color); }
+        .btn { background: var(--brand-color); color: #fff; border: none; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+        .btn:hover { background: var(--brand-hover); }
+        .btn-danger { background: var(--danger-color); }
+        .btn-danger:hover { background: #c53030; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-secondary); font-weight: 600; background: #faf9f6; }
+        
+        [contenteditable="true"] { outline: none; border-radius: 4px; padding: 2px 4px; transition: background 0.2s; }
+        [contenteditable="true"]:hover { background: #f4f6f5; }
+        [contenteditable="true"]:focus { background: #fff; box-shadow: 0 0 0 2px var(--brand-color); }
+
+        .moment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+        .moment-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
+        .moment-tag { display: inline-block; font-size: 11px; padding: 2px 6px; background: #eaf1f0; color: var(--brand-color); border-radius: 4px; width: fit-content; }
+
+        @media(max-width: 768px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            aside { width: 100%; flex-direction: row; overflow-x: auto; padding: 12px; }
+            .logo-area { display: none; }
+            .pet-house { display: none; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div class="logo-area">🐾 个人数字工作台</div>
+        <div class="nav-item active" onclick="switchTab('daily', this)"><span>📋</span> 每日计划</div>
+        <div class="nav-item" onclick="switchTab('ikea', this)"><span>📖</span> 宜家员工手册</div>
+        <div class="nav-item" onclick="switchTab('pc', this)"><span>👥</span> P&C 领导力专区</div>
+        <div class="nav-item" onclick="switchTab('xhs', this)"><span>💡</span> 小红书轻量选题</div>
+        <div class="nav-item" onclick="switchTab('hr', this)"><span>⚖️</span> HR求职与专业进修</div>
+        <div class="nav-item" onclick="switchTab('english', this)"><span>🌐</span> 外企商务英语</div>
+        <div class="nav-item" onclick="switchTab('moments', this)"><span>☕</span> 生活小确幸</div>
+        <div class="nav-item" onclick="switchTab('memos', this)"><span>📝</span> 备忘录</div>
+
+        <!-- 左侧底部的卡通萌宠陪伴区 -->
+        <div class="pet-house" title="你的桌宠小助手">
+            <div class="pet-item" onclick="petClick('cat')">
+                <span class="pet-emoji">🐱</span>
+                <span>主子</span>
+            </div>
+            <div class="pet-item" onclick="petClick('dog')">
+                <span class="pet-emoji">🐶</span>
+                <span>旺财</span>
+            </div>
+            <div class="pet-item" onclick="petClick('bunny')">
+                <span class="pet-emoji">🐰</span>
+                <span>团子</span>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <header>
+            <div class="header-title" id="page-title"><span>📋</span> 每日计划</div>
+            <div class="header-info" id="current-date-str">加载中...</div>
+        </header>
+
+        <!-- 1. 宜家员工手册专区 -->
+        <div id="tab-ikea" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击单元格文本可直接修改)</span></h3>
+                <div class="form-group">
+                    <input type="text" id="ikea-search" placeholder="搜索手册条例/福利政策..." style="flex:2;" oninput="renderIkea()">
+                    <button class="btn" onclick="addIkeaItem()">添加记录</button>
+                </div>
+                <table>
+                    <thead><tr><th>核心板块</th><th>政策与福利细则</th><th>状态/备注</th><th>操作</th></tr></thead>
+                    <tbody id="ikea-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. P&C 文化专区 -->
+        <div id="tab-pc" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">👥 P&C 文化与全员领导力专区 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击单元格文本可直接修改)</span></h3>
+                <div class="form-group">
+                    <input type="text" id="pc-title" placeholder="核心价值观 / 领导力要点" style="flex:2;">
+                    <input type="text" id="pc-desc" placeholder="具体践行方式" style="flex:2;">
+                    <button class="btn" onclick="addPcItem()">添加记录</button>
+                </div>
+                <table>
+                    <thead><tr><th>文化核心</th><th>践行描述</th><th>操作</th></tr></thead>
+                    <tbody id="pc-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 每日计划 -->
+        <div id="tab-daily" class="content-body active">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">🐱 今日待办事项与打卡 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击任意任务文本即可直接修改)</span></h3>
+                <div class="form-group">
+                    <input type="text" id="daily-input" placeholder="添加今天的小目标..." style="flex:1;">
+                    <button class="btn" onclick="addDailyTask()">添加任务</button>
+                </div>
+                <table>
+                    <thead><tr><th>任务内容</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody id="daily-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 小红书选题 -->
+        <div id="tab-xhs" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">💡 小红书兴趣选题库 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击标题直接修改)</span></h3>
+                <div class="form-group">
+                    <input type="text" id="xhs-title" placeholder="选题灵感 / 标题方向" style="flex:2;">
+                    <select id="xhs-cat" style="flex:1;">
+                        <option value="HR职场日常">HR职场日常</option>
+                        <option value="生活方式/小确幸">生活方式/小确幸</option>
+                        <option value="英语学习心得">英语学习心得</option>
+                        <option value="吸猫/日常碎碎念">吸猫/日常碎碎念</option>
+                    </select>
+                    <button class="btn" onclick="addXhs()">保存灵感</button>
+                </div>
+                <table>
+                    <thead><tr><th>选题方向</th><th>分类</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody id="xhs-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HR求职与专业进修 -->
+        <div id="tab-hr" class="content-body">
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="margin-bottom: 14px;">🎯 外企 HR 岗位投递 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击公司/岗位直接改)</span></h3>
+                    <div class="form-group">
+                        <input type="text" id="hr-company" placeholder="公司名称" style="flex:1;">
+                        <input type="text" id="hr-position" placeholder="岗位" style="flex:1;">
+                        <select id="hr-status">
+                            <option value="已投递">已投递</option>
+                            <option value="初试/面试中">初试/面试中</option>
+                            <option value="Offer">Offer</option>
+                            <option value="已存档">已存档</option>
+                        </select>
+                        <button class="btn" onclick="addHrJob()">添加</button>
+                    </div>
+                    <table>
+                        <thead><tr><th>公司</th><th>岗位</th><th>进度</th><th>操作</th></tr></thead>
+                        <tbody id="hr-job-tbody"></tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 14px;">🐶 劳动合同法 & HR进修 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击内容直接改)</span></h3>
+                    <div class="form-group">
+                        <input type="text" id="hr-study-topic" placeholder="知识点 / 法条内容" style="flex:2;">
+                        <select id="hr-study-type" style="flex:1;">
+                            <option value="劳动合同法">劳动合同法</option>
+                            <option value="外企HR专业知识">外企HR专业知识</option>
+                            <option value="宜家工作复盘">宜家工作复盘</option>
+                        </select>
+                        <button class="btn" onclick="addHrStudy()">记录</button>
+                    </div>
+                    <table>
+                        <thead><tr><th>学习内容</th><th>模块</th><th>操作</th></tr></thead>
+                        <tbody id="hr-study-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 外企商务英语 -->
+        <div id="tab-english" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">🌐 外企商务英语 / 高频词汇 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击单词或释义直接修改)</span></h3>
+                <div class="form-group">
+                    <input type="text" id="eng-word" placeholder="商务词汇 / 句型" style="flex:1;">
+                    <input type="text" id="eng-mean" placeholder="中文释义 / 场景" style="flex:2;">
+                    <button class="btn" onclick="addEnglish()">添加积累</button>
+                </div>
+                <table>
+                    <thead><tr><th>词汇 / 表达</th><th>释义与场景</th><th>操作</th></tr></thead>
+                    <tbody id="eng-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 生活小确幸 -->
+        <div id="tab-moments" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">☕ 生活小确幸（美食、猫咪、阅读、影视）</h3>
+                <div class="form-group">
+                    <select id="mom-cat" style="width: 140px;">
+                        <option value="🐱 养猫日常">🐱 养猫日常</option>
+                        <option value="🍲 美食分享">🍲 美食分享</option>
+                        <option value="📚 书籍阅读">📚 书籍阅读</option>
+                        <option value="🎬 影视音乐">🎬 影视音乐</option>
+                    </select>
+                    <input type="text" id="mom-desc" placeholder="写点什么记录这一刻..." style="flex:2;">
+                    <button class="btn" onclick="addMoment()">记录美好</button>
+                </div>
+                <div class="moment-grid" id="moment-container" style="margin-top: 16px;"></div>
+            </div>
+        </div>
+
+        <!-- 备忘录 -->
+        <div id="tab-memos" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">📝 随手备忘录 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(双击内容直接修改)</span></h3>
+                <div class="form-group">
+                    <textarea id="memo-input" placeholder="写点备忘..." style="width:100%; height:80px; resize:none;"></textarea>
+                    <button class="btn" onclick="addMemo()" style="align-self: flex-end;">保存备忘</button>
+                </div>
+                <table>
+                    <thead><tr><th>内容</th><th>时间</th><th>操作</th></tr></thead>
+                    <tbody id="memo-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.content-body').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            if(el) el.classList.add('active');
+            document.getElementById('page-title').innerHTML = el ? el.innerHTML : '';
+        }
+
+        function petClick(type) {
+            const msgs = {
+                cat: "🐱 喵~ 主人今天也要加油打工人！",
+                dog: "🐶 汪！今天面试一定会顺利通过的！",
+                bunny: "🐰 蹦蹦跳跳，记得吃好喝好哦~"
+            };
+            alert(msgs[type]);
+        }
+
+        const now = new Date();
+        document.getElementById('current-date-str').innerText = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+
+        let ikeaRules = JSON.parse(localStorage.getItem('my_ikea')) || [
+            {topic: '试用期政策', detail: '试用期最长不超过6个月，关注转正考核标准', note: '核心合规'},
+            {topic: '薪资与第13薪', detail: '每月25日发放月薪，包含第13个月薪资计划', note: '薪酬福利'},
+            {topic: '员工购物折扣', detail: '员工年度内享有5000元内部员工折扣额度', note: '员工福利'}
+        ];
+        let pcCulture = JSON.parse(localStorage.getItem('my_pc')) || [
+            {core: '以身作则 (Lead by Example)', desc: '通过自身行为体现宜家价值观，成为表率'},
+            {core: '团结一致 (Togetherness)', desc: '互相支持，共同为实现共同目标而努力'},
+            {core: '简单 (Simplicity)', desc: '保持务实、高效、不繁琐的沟通与做事方式'}
+        ];
+        let dailyTasks = JSON.parse(localStorage.getItem('my_daily')) || [{text: '背诵劳动合同法法条', done: false}, {text: '复习5个外企商务英语词汇', done: true}];
+        let xhsTopics = JSON.parse(localStorage.getItem('my_xhs')) || [{title: '宜家兼职HR的一天是怎样的？', cat: 'HR职场日常', status: '构思中'}];
+        let hrJobs = JSON.parse(localStorage.getItem('my_hrjobs')) || [{company: '某外企FMCG', position: 'HR Assistant', status: '面试中'}];
+        let hrStudies = JSON.parse(localStorage.getItem('my_hrstudies')) || [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}];
+        let englishWords = JSON.parse(localStorage.getItem('my_english')) || [{word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'}];
+        let moments = JSON.parse(localStorage.getItem('my_moments')) || [{cat: '🐱 养猫日常', desc: '主子今天格外粘人~'}];
+        let memos = JSON.parse(localStorage.getItem('my_memos')) || [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}];
+
+        function saveData() {
+            localStorage.setItem('my_ikea', JSON.stringify(ikeaRules));
+            localStorage.setItem('my_pc', JSON.stringify(pcCulture));
+            localStorage.setItem('my_daily', JSON.stringify(dailyTasks));
+            localStorage.setItem('my_xhs', JSON.stringify(xhsTopics));
+            localStorage.setItem('my_hrjobs', JSON.stringify(hrJobs));
+            localStorage.setItem('my_hrstudies', JSON.stringify(hrStudies));
+            localStorage.setItem('my_english', JSON.stringify(englishWords));
+            localStorage.setItem('my_moments', JSON.stringify(moments));
+            localStorage.setItem('my_memos', JSON.stringify(memos));
+            renderAll();
+        }
+
+        // 宜家手册操作
+        function addIkeaItem() {
+            const topic = prompt("请输入核心板块名称:");
+            const detail = prompt("请输入政策细则:");
+            const note = prompt("请输入状态/备注 (例如: 核心合规 / 薪酬福利):") || '自定义记录';
+            if(!topic || !detail) return;
+            ikeaRules.push({topic, detail, note});
+            saveData();
+        }
+        function deleteIkea(i) { ikeaRules.splice(i, 1); saveData(); }
+        function updateIkea(i, field, val) { ikeaRules[i][field] = val; saveData(); }
+
+        // P&C 领导力操作
+        function addPcItem() {
+            const core = document.getElementById('pc-title').value.trim();
+            const desc = document.getElementById('pc-desc').value.trim();
+            if(!core) return;
+            pcCulture.push({core, desc});
+            document.getElementById('pc-title').value = '';
+            document.getElementById('pc-desc').value = '';
+            saveData();
+        }
+        function deletePc(i) { pcCulture.splice(i, 1); saveData(); }
+        function updatePc(i, field, val) { pcCulture[i][field] = val; saveData(); }
+
+        // 其他板块基础操作
+        function addDailyTask() {
+            const val = document.getElementById('daily-input').value.trim();
+            if(!val) return;
+            dailyTasks.push({text: val, done: false});
+            document.getElementById('daily-input').value = '';
+            saveData();
+        }
+        function toggleDaily(i) { dailyTasks[i].done = !dailyTasks[i].done; saveData(); }
+        function deleteDaily(i) { dailyTasks.splice(i, 1); saveData(); }
+        function updateDaily(i, val) { dailyTasks[i].text = val; saveData(); }
+
+        function addXhs() {
+            const title = document.getElementById('xhs-title').value.trim();
+            const cat = document.getElementById('xhs-cat').value;
+            if(!title) return;
+            xhsTopics.push({title, cat, status: '构思中'});
+            document.getElementById('xhs-title').value = '';
+            saveData();
+        }
+        function deleteXhs(i) { xhsTopics.splice(i, 1); saveData(); }
+        function updateXhs(i, val) { xhsTopics[i].title = val; saveData(); }
+
+        function addHrJob() {
+            const company = document.getElementById('hr-company').value.trim();
+            const position = document.getElementById('hr-position').value.trim();
+            const status = document.getElementById('hr-status').value;
+            if(!company) return;
+            hrJobs.push({company, position, status});
+            document.getElementById('hr-company').value = '';
+            document.getElementById('hr-position').value = '';
+            saveData();
+        }
+        function deleteHrJob(i) { hrJobs.splice(i, 1); saveData(); }
+        function updateHrJob(i, field, val) { hrJobs[i][field] = val; saveData(); }
+
+        function addHrStudy() {
+            const topic = document.getElementById('hr-study-topic').value.trim();
+            const type = document.getElementById('hr-study-type').value;
+            if(!topic) return;
+            hrStudies.push({topic, type});
+            document.getElementById('hr-study-topic').value = '';
+            saveData();
+        }
+        function deleteHrStudy(i) { hrStudies.splice(i, 1); saveData(); }
+        function updateHrStudy(i, val) { hrStudies[i].topic = val; saveData(); }
+
+        function addEnglish() {
+            const word = document.getElementById('eng-word').value.trim();
+            const mean = document.getElementById('eng-mean').value.trim();
+            if(!word) return;
+            englishWords.push({word, mean});
+            document.getElementById('eng-word').value = '';
+            document.getElementById('eng-mean').value = '';
+            saveData();
+        }
+        function deleteEnglish(i) { englishWords.splice(i, 1); saveData(); }
+        function updateEnglish(i, field, val) { englishWords[i][field] = val; saveData(); }
+
+        function addMoment() {
+            const cat = document.getElementById('mom-cat').value;
+            const desc = document.getElementById('mom-desc').value.trim();
+            if(!desc) return;
+            moments.unshift({cat, desc});
+            document.getElementById('mom-desc').value = '';
+            saveData();
+        }
+        function deleteMoment(i) { moments.splice(i, 1); saveData(); }
+        function updateMoment(i, val) { moments[i].desc = val; saveData(); }
+
+        function addMemo() {
+            const text = document.getElementById('memo-input').value.trim();
+            if(!text) return;
+            memos.unshift({text, time: new Date().toLocaleDateString()});
+            document.getElementById('memo-input').value = '';
+            saveData();
+        }
+        function deleteMemo(i) { memos.splice(i, 1); saveData(); }
+        function updateMemo(i, val) { memos[i].text = val; saveData(); }
+
+        // 渲染函数
+        function renderIkea() {
+            const keyword = document.getElementById('ikea-search').value.toLowerCase();
+            const filtered = ikeaRules.map((item, originalIndex) => ({item, originalIndex})).filter(({item}) => 
+                item.topic.toLowerCase().includes(keyword) || item.detail.toLowerCase().includes(keyword) || item.note.toLowerCase().includes(keyword)
+            );
+            document.getElementById('ikea-table-body').innerHTML = filtered.map(({item, originalIndex}) => `
+                <tr>
+                    <td><strong><span contenteditable="true" onblur="updateIkea(${originalIndex}, 'topic', this.innerText)">${item.topic}</span></strong></td>
+                    <td><span contenteditable="true" onblur="updateIkea(${originalIndex}, 'detail', this.innerText)">${item.detail}</span></td>
+                    <td><span contenteditable="true" onblur="updateIkea(${originalIndex}, 'note', this.innerText)">${item.note}</span></td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteIkea(${originalIndex})">删</button></td>
+                </tr>`).join('');
+        }
+
+        function renderPc() {
+            document.getElementById('pc-table-body').innerHTML = pcCulture.map((p, i) => `
+                <tr>
+                    <td><strong><span contenteditable="true" onblur="updatePc(${i}, 'core', this.innerText)">${p.core}</span></strong></td>
+                    <td><span contenteditable="true" onblur="updatePc(${i}, 'desc', this.innerText)">${p.desc}</span></td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deletePc(${i})">删</button></td>
+                </tr>`).join('');
+        }
+
+        function renderAll() {
+            renderIkea();
+            renderPc();
+
+            document.getElementById('daily-table-body').innerHTML = dailyTasks.map((t, i) => `
+                <tr>
+                    <td><span contenteditable="true" onblur="updateDaily(${i}, this.innerText)" style="${t.done?'text-decoration:line-through;color:#a0aec0':''}">${t.text}</span></td>
+                    <td><input type="checkbox" ${t.done?'checked':''} onclick="toggleDaily(${i})" style="width:16px;height:16px;cursor:pointer;"></td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteDaily(${i})">删</button></td>
+                </tr>`).join('');
+
+            document.getElementById('xhs-table-body').innerHTML = xhsTopics.map((x, i) => `
+                <tr>
+                    <td><span contenteditable="true" onblur="updateXhs(${i}, this.innerText)">${x.title}</span></td>
+                    <td>${x.cat}</td>
+                    <td>${x.status}</td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteXhs(${i})">删</button></td>
+                </tr>`).join('');
+
+            document.getElementById('hr-job-tbody').innerHTML = hrJobs.map((j, i) => `
+                <tr>
+                    <td><span contenteditable="true" onblur="updateHrJob(${i}, 'company', this.innerText)">${j.company}</span></td>
+                    <td><span contenteditable="true" onblur="updateHrJob(${i}, 'position', this.innerText)">${j.position}</span></td>
+                    <td>${j.status}</td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteHrJob(${i})">删</button></td>
+                </tr>`).join('');
+
+            document.getElementById('hr-study-tbody').innerHTML = hrStudies.map((s, i) => `
+                <tr>
+                    <td><span contenteditable="true" onblur="updateHrStudy(${i}, this.innerText)">${s.topic}</span></td>
+                    <td>${s.type}</td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteHrStudy(${i})">删</button></td>
+                </tr>`).join('');
+
+            document.getElementById('eng-table-body').innerHTML = englishWords.map((e, i) => `
+                <tr>
+                    <td><strong><span contenteditable="true" onblur="updateEnglish(${i}, 'word', this.innerText)">${e.word}</span></strong></td>
+                    <td><span contenteditable="true" onblur="updateEnglish(${i}, 'mean', this.innerText)">${e.mean}</span></td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteEnglish(${i})">删</button></td>
+                </tr>`).join('');
+
+            document.getElementById('moment-container').innerHTML = moments.map((m, i) => `
+                <div class="moment-card">
+                    <div class="moment-tag">${m.cat}</div>
+                    <p contenteditable="true" onblur="updateMoment(${i}, this.innerText)" style="font-size:13px; color:var(--text-main); min-height:30px;">${m.desc}</p>
+                    <button class="btn btn-danger" style="padding:2px 6px;font-size:11px;width:fit-content;margin-top:auto;" onclick="deleteMoment(${i})">删除</button>
+                </div>`).join('');
+
+            document.getElementById('memo-table-body').innerHTML = memos.map((m, i) => `
+                <tr>
+                    <td><span contenteditable="true" onblur="updateMemo(${i}, this.innerText)">${m.text}</span></td>
+                    <td>${m.time}</td>
+                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteMemo(${i})">删</button></td>
+                </tr>`).join('');
+        }
+
+        renderAll();
+    </script>
+</body>
+</html>
