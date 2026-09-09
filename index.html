@@ -51,8 +51,10 @@
         .form-group { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
         input, select, textarea { padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff; color: var(--text-main); }
         input:focus, select:focus, textarea:focus { border-color: var(--brand-color); }
-        .btn { background: var(--brand-color); color: #fff; border: none; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; }
+        .btn { background: var(--brand-color); color: #fff; border: none; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
         .btn:hover { background: var(--brand-hover); }
+        .btn-quark { background: #107c41; }
+        .btn-quark:hover { background: #0e6b37; }
         .btn-danger { background: var(--danger-color); }
         .btn-danger:hover { background: #c53030; }
 
@@ -102,6 +104,7 @@
         <div class="nav-item" onclick="switchTab('moments', this)"><span>☕</span> 生活小确幸</div>
         <div class="nav-item" onclick="switchTab('photos', this)"><span>🖼️</span> 个人精美相册</div>
         <div class="nav-item" onclick="switchTab('memos', this)"><span>📝</span> 备忘录</div>
+        <div class="nav-item" onclick="switchTab('music', this)"><span>🎵</span> 网易云音乐</div>
 
         <div class="pet-house" title="你的桌宠小助手">
             <div class="pet-item" onclick="petClick('cat')"><span class="pet-emoji">🐱</span><span>主子</span></div>
@@ -119,7 +122,10 @@
         <!-- 1. 宜家员工手册专区 -->
         <div id="tab-ikea" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击任意表格内容可直接修改并自动保存)</span></h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <h3>📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击表格内容直接修改)</span></h3>
+                    <a href="https://pan.quark.cn" target="_blank" class="btn btn-quark">📥 夸克网盘资料库</a>
+                </div>
                 <div class="form-group">
                     <input type="text" id="ikea-search" placeholder="搜索手册策略..." oninput="renderIkea()" style="flex:1;">
                     <button class="btn" onclick="addIkeaItem()">添加记录</button>
@@ -134,7 +140,10 @@
         <!-- 2. P&C 文化专区 -->
         <div id="tab-pc" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">👥 P&C 文化与全员领导力专区 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本即可直接修改)</span></h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <h3>👥 P&C 文化与全员领导力专区 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本即可直接修改)</span></h3>
+                    <a href="https://pan.quark.cn" target="_blank" class="btn btn-quark">📥 夸克网盘资料库</a>
+                </div>
                 <div class="form-group">
                     <input type="text" id="pc-title" placeholder="文化核心名称" style="flex:1;">
                     <input type="text" id="pc-desc" placeholder="践行描述..." style="flex:2;">
@@ -226,11 +235,21 @@
         <!-- 外企商务英语 -->
         <div id="tab-english" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">🌐 外企商务英语 / 高频词汇 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <h3>🌐 英语八级 + 外企常用词汇 (每日 15 个打卡)</h3>
+                    <button class="btn" onclick="refreshDailyEnglish()" style="background: var(--brand-color);">🔄 手动刷新今日单词</button>
+                </div>
+                <table>
+                    <thead><tr><th>#</th><th>商务与专八词汇 / 表达</th><th>释义与高频场景</th></tr></thead>
+                    <tbody id="eng-daily-table-body"></tbody>
+                </table>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom: 14px;">📚 完整商务英语词库管理 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击表格内容可直接修改)</span></h3>
                 <div class="form-group">
-                    <input type="text" id="eng-word" placeholder="商务词汇 / 句型" style="flex:1;">
+                    <input type="text" id="eng-word" placeholder="商务/专八词汇" style="flex:1;">
                     <input type="text" id="eng-mean" placeholder="中文释义 / 场景" style="flex:2;">
-                    <button class="btn" onclick="addEnglish()">添加积累</button>
+                    <button class="btn" onclick="addEnglish()">添加进词库</button>
                 </div>
                 <table>
                     <thead><tr><th>词汇 / 表达</th><th>释义与场景</th><th>操作</th></tr></thead>
@@ -284,6 +303,15 @@
                 </table>
             </div>
         </div>
+
+        <!-- 网易云音乐专区 -->
+        <div id="tab-music" class="content-body">
+            <div class="card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; min-height: 400px; text-align: center;">
+                <h3 style="margin-bottom: 8px;">🎵 网易云音乐伴随办公</h3>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">点击下方按钮直接跳转至网页版网易云音乐听歌：</p>
+                <a href="https://music.163.com" target="_blank" class="btn" style="background: #c20c0c; padding: 12px 24px; font-size: 15px;">🌐 打开网易云音乐官网</a>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -307,7 +335,6 @@
         const now = new Date();
         document.getElementById('current-date-str').innerText = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
 
-        // 安全获取本地缓存数据，防止JSON解析异常引起崩溃
         function safeGetStorage(key, defaultValue) {
             try {
                 const item = localStorage.getItem(key);
@@ -327,17 +354,44 @@
             {core: '团结一致 (Togetherness)', desc: '互相支持，共同为实现共同目标而努力'},
             {core: '简单 (Simplicity)', desc: '保持务实、高效、不繁琐的沟通与做事方式'}
         ]);
-        let dailyTasks = safeGetStorage('my_daily', [{text: '背诵劳动合同法法条', done: false}, {text: '复习5个外企商务英语词汇', done: true}]);
+        let dailyTasks = safeGetStorage('my_daily', [{text: '背诵劳动合同法法条', done: false}, {text: '复习15个外企商务与专八英语词汇', done: true}]);
         let xhsTopics = safeGetStorage('my_xhs', [{title: '宜家兼职HR的一天是怎样的？', cat: 'HR职场日常', status: '构思中'}]);
         let hrJobs = safeGetStorage('my_hrjobs', [{company: '某外企FMCG', position: 'HR Assistant', status: '面试中'}]);
         let hrStudies = safeGetStorage('my_hrstudies', [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}]);
-        let englishWords = safeGetStorage('my_english', [{word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'}]);
+        
+        // 英语八级 + 外企常用词汇高频词库
+        let englishWords = safeGetStorage('my_english', [
+            {word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'},
+            {word: 'Onboarding', mean: '入职引导/新员工入职流程'},
+            {word: 'Key Performance Indicator (KPI)', mean: '关键绩效指标'},
+            {word: 'Performance Review', mean: '绩效考核/述职评估'},
+            {word: 'Compensation & Benefits (C&B)', mean: '薪酬福利板块'},
+            {word: 'Employee Engagement', mean: '员工敬业度/归属感'},
+            {word: 'Internal Mobility', mean: '内部转岗/内部职业流动'},
+            {word: 'Exit Interview', mean: '离职面谈'},
+            {word: 'Probation Period', mean: '试用期'},
+            {word: 'Severance Pay', mean: '经济补偿金/离职补偿'},
+            {word: 'Headcount Budget', mean: '编制预算/人员预算'},
+            {word: 'Cross-functional Team', mean: '跨职能团队/跨部门协作'},
+            {word: 'Action Plan', mean: '行动计划/落地执行方案'},
+            {word: 'Follow-up', mean: '后续跟进/追踪落实'},
+            {word: 'Alignment', mean: '对齐/目标一致'},
+            {word: 'Benchmark', mean: '基准/对标管理（专八核心词）'},
+            {word: 'Comprehensive', mean: '全面的/综合的（专八核心词）'},
+            {word: 'Substantiate', mean: '证实/证明（专八高频高级词汇）'},
+            {word: 'Mitigate', mean: '减轻/缓和风险（高级商务词汇）'},
+            {word: 'Prerequisite', mean: '先决条件/前提（专八核心词）'}
+        ]);
+
         let moments = safeGetStorage('my_moments', [{cat: '🐱 养猫日常', desc: '主子今天格外粘人~'}]);
         let photos = safeGetStorage('my_photos', [
             {url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop', caption: '可爱的主子日常 🐾'},
             {url: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500&auto=format&fit=crop', caption: '周末的咖啡与工作台 ☕'}
         ]);
         let memos = safeGetStorage('my_memos', [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}]);
+
+        // 记录每日展示的随机偏移量，支持手动刷新
+        let englishOffset = safeGetStorage('my_eng_offset', 0);
 
         function saveData() {
             localStorage.setItem('my_ikea', JSON.stringify(ikeaRules));
@@ -350,7 +404,15 @@
             localStorage.setItem('my_moments', JSON.stringify(moments));
             localStorage.setItem('my_photos', JSON.stringify(photos));
             localStorage.setItem('my_memos', JSON.stringify(memos));
+            localStorage.setItem('my_eng_offset', JSON.stringify(englishOffset));
             renderAll();
+        }
+
+        function refreshDailyEnglish() {
+            if (englishWords.length === 0) return;
+            // 每次点击随机步进或者按 15 步进切换下一批
+            englishOffset = (englishOffset + 15) % englishWords.length;
+            saveData();
         }
 
         function addIkeaItem() {
@@ -501,6 +563,24 @@
         function renderAll() {
             renderIkea();
             renderPc();
+
+            // 渲染每日 15 个英语单词（基于 englishOffset 偏移和手动刷新）
+            let dailyListHtml = '';
+            if (englishWords.length > 0) {
+                for (let i = 0; i < 15; i++) {
+                    const index = (englishOffset + i) % englishWords.length;
+                    const item = englishWords[index];
+                    dailyListHtml += `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td><strong>${item.word}</strong></td>
+                            <td>${item.mean}</td>
+                        </tr>`;
+                }
+            } else {
+                dailyListHtml = `<tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">请在下方词库添加词汇</td></tr>`;
+            }
+            document.getElementById('eng-daily-table-body').innerHTML = dailyListHtml;
 
             document.getElementById('daily-table-body').innerHTML = dailyTasks.map((t, i) => `
                 <tr>
