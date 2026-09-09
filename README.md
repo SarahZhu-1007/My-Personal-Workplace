@@ -18,12 +18,15 @@
             --shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* 优化高度和溢出，避免在 GitHub Pages 中显示不全 */
+        html, body { height: 100%; width: 100%; overflow: hidden; background-color: var(--bg-color); color: var(--text-main); }
+        body { display: flex; }
 
         /* 左侧导航 */
-        aside { width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 6px; z-index: 10; position: relative; }
+        aside { width: 250px; min-width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 6px; z-index: 10; height: 100%; }
         .logo-area { font-size: 15px; font-weight: 700; color: var(--brand-color); padding: 0 12px 18px 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { padding: 10px 14px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 10px 14px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 10px; user-select: none; }
         .nav-item:hover { background: #f4f6f5; color: var(--text-main); }
         .nav-item.active { background: #eaf1f0; color: var(--brand-color); font-weight: 600; }
 
@@ -34,12 +37,12 @@
         .pet-emoji { font-size: 24px; }
 
         /* 右侧主体 */
-        main { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
-        header { height: 64px; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+        main { flex-grow: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        header { height: 64px; min-height: 64px; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
         .header-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .header-info { font-size: 13px; color: var(--text-secondary); }
 
-        .content-body { flex-grow: 1; padding: 24px 32px; overflow-y: auto; display: none; }
+        .content-body { flex-grow: 1; padding: 24px 32px; overflow-y: auto; display: none; height: calc(100% - 64px); }
         .content-body.active { display: block; }
 
         .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
@@ -65,10 +68,13 @@
         .moment-tag { display: inline-block; font-size: 11px; padding: 2px 6px; background: #eaf1f0; color: var(--brand-color); border-radius: 4px; width: fit-content; }
 
         @media(max-width: 768px) {
-            body { flex-direction: column; height: auto; overflow: auto; }
-            aside { width: 100%; flex-direction: row; overflow-x: auto; padding: 12px; }
+            html, body { height: auto; overflow: auto; }
+            body { flex-direction: column; }
+            aside { width: 100%; min-width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 12px; }
             .logo-area { display: none; }
             .pet-house { display: none; }
+            main { height: auto; overflow: visible; }
+            .content-body { height: auto; overflow: visible; }
             .grid-2 { grid-template-columns: 1fr; }
         }
     </style>
@@ -86,20 +92,10 @@
         <div class="nav-item" onclick="switchTab('moments', this)"><span>☕</span> 生活小确幸</div>
         <div class="nav-item" onclick="switchTab('memos', this)"><span>📝</span> 备忘录</div>
 
-        <!-- 左侧底部的卡通萌宠陪伴区 -->
         <div class="pet-house" title="你的桌宠小助手">
-            <div class="pet-item" onclick="petClick('cat')">
-                <span class="pet-emoji">🐱</span>
-                <span>主子</span>
-            </div>
-            <div class="pet-item" onclick="petClick('dog')">
-                <span class="pet-emoji">🐶</span>
-                <span>旺财</span>
-            </div>
-            <div class="pet-item" onclick="petClick('bunny')">
-                <span class="pet-emoji">🐰</span>
-                <span>团子</span>
-            </div>
+            <div class="pet-item" onclick="petClick('cat')"><span class="pet-emoji">🐱</span><span>主子</span></div>
+            <div class="pet-item" onclick="petClick('dog')"><span class="pet-emoji">🐶</span><span>旺财</span></div>
+            <div class="pet-item" onclick="petClick('bunny')"><span class="pet-emoji">🐰</span><span>团子</span></div>
         </div>
     </aside>
 
@@ -318,7 +314,6 @@
             renderAll();
         }
 
-        // 宜家手册操作
         function addIkeaItem() {
             const topic = prompt("请输入核心板块名称:");
             const detail = prompt("请输入政策细则:");
@@ -330,7 +325,6 @@
         function deleteIkea(i) { ikeaRules.splice(i, 1); saveData(); }
         function updateIkea(i, field, val) { ikeaRules[i][field] = val; saveData(); }
 
-        // P&C 领导力操作
         function addPcItem() {
             const core = document.getElementById('pc-title').value.trim();
             const desc = document.getElementById('pc-desc').value.trim();
@@ -343,7 +337,6 @@
         function deletePc(i) { pcCulture.splice(i, 1); saveData(); }
         function updatePc(i, field, val) { pcCulture[i][field] = val; saveData(); }
 
-        // 其他板块基础操作
         function addDailyTask() {
             const val = document.getElementById('daily-input').value.trim();
             if(!val) return;
@@ -423,7 +416,6 @@
         function deleteMemo(i) { memos.splice(i, 1); saveData(); }
         function updateMemo(i, val) { memos[i].text = val; saveData(); }
 
-        // 渲染函数
         function renderIkea() {
             const keyword = document.getElementById('ikea-search').value.toLowerCase();
             const filtered = ikeaRules.map((item, originalIndex) => ({item, originalIndex})).filter(({item}) => 
