@@ -60,7 +60,6 @@
         th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border-color); }
         th { color: var(--text-secondary); font-weight: 600; background: #faf9f6; }
         
-        /* 悬浮直接编辑美化：带轻微提示边框 */
         [contenteditable="true"] { outline: none; border-radius: 4px; padding: 2px 6px; transition: all 0.2s; border: 1px dashed transparent; }
         [contenteditable="true"]:hover { background: #f4f6f5; border-color: #cbd5e0; }
         [contenteditable="true"]:focus { background: #fff; border-color: var(--brand-color); box-shadow: 0 0 0 2px rgba(90, 125, 124, 0.15); }
@@ -69,17 +68,14 @@
         .moment-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
         .moment-tag { display: inline-block; font-size: 11px; padding: 2px 6px; background: #eaf1f0; color: var(--brand-color); border-radius: 4px; width: fit-content; }
 
-        /* 相册网格布局 */
         .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-top: 15px; }
         .photo-card { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform 0.2s; }
         .photo-card:hover { transform: translateY(-3px); }
         .photo-img-wrap { width: 100%; height: 160px; background: #f4f6f5; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
         .photo-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s; }
-        .photo-img-wrap::after { content: '更换图片'; position: absolute; background: rgba(0,0,0,0.6); color: #fff; font-size: 12px; padding: 4px 8px; border-radius: 4px; opacity: 0; transition: opacity 0.2s; }
+        .photo-img-wrap::after { content: '更换图片链接'; position: absolute; background: rgba(0,0,0,0.6); color: #fff; font-size: 12px; padding: 4px 8px; border-radius: 4px; opacity: 0; transition: opacity 0.2s; }
         .photo-img-wrap:hover::after { opacity: 1; }
         .photo-info { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
-
-        .welcome-letter { background-color: #f0f7ff; border-left: 4px solid var(--ikea-blue); padding: 20px; margin-bottom: 20px; border-radius: 0 4px 4px 0; }
 
         @media(max-width: 768px) {
             html, body { height: auto; overflow: auto; }
@@ -123,7 +119,7 @@
         <!-- 1. 宜家员工手册专区 -->
         <div id="tab-ikea" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 悬浮并点击任意表格内容可直接修改并自动保存)</span></h3>
+                <h3 style="margin-bottom: 14px;">📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击任意表格内容可直接修改并自动保存)</span></h3>
                 <div class="form-group">
                     <input type="text" id="ikea-search" placeholder="搜索手册策略..." oninput="renderIkea()" style="flex:1;">
                     <button class="btn" onclick="addIkeaItem()">添加记录</button>
@@ -311,27 +307,37 @@
         const now = new Date();
         document.getElementById('current-date-str').innerText = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
 
-        let ikeaRules = JSON.parse(localStorage.getItem('my_ikea')) || [
+        // 安全获取本地缓存数据，防止JSON解析异常引起崩溃
+        function safeGetStorage(key, defaultValue) {
+            try {
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : defaultValue;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+
+        let ikeaRules = safeGetStorage('my_ikea', [
             {topic: '试用期政策', detail: '试用期最长不超过6个月，关注转正考核标准', note: '核心合规'},
             {topic: '薪资与第13薪', detail: '每月25日发放月薪，包含第13个月薪资计划', note: '薪酬福利'},
             {topic: '员工购物折扣', detail: '员工年度内享有5000元内部员工折扣额度', note: '员工福利'}
-        ];
-        let pcCulture = JSON.parse(localStorage.getItem('my_pc')) || [
+        ]);
+        let pcCulture = safeGetStorage('my_pc', [
             {core: '以身作则 (Lead by Example)', desc: '通过自身行为体现宜家价值观，成为表率'},
             {core: '团结一致 (Togetherness)', desc: '互相支持，共同为实现共同目标而努力'},
             {core: '简单 (Simplicity)', desc: '保持务实、高效、不繁琐的沟通与做事方式'}
-        ];
-        let dailyTasks = JSON.parse(localStorage.getItem('my_daily')) || [{text: '背诵劳动合同法法条', done: false}, {text: '复习5个外企商务英语词汇', done: true}];
-        let xhsTopics = JSON.parse(localStorage.getItem('my_xhs')) || [{title: '宜家兼职HR的一天是怎样的？', cat: 'HR职场日常', status: '构思中'}];
-        let hrJobs = JSON.parse(localStorage.getItem('my_hrjobs')) || [{company: '某外企FMCG', position: 'HR Assistant', status: '面试中'}];
-        let hrStudies = JSON.parse(localStorage.getItem('my_hrstudies')) || [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}];
-        let englishWords = JSON.parse(localStorage.getItem('my_english')) || [{word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'}];
-        let moments = JSON.parse(localStorage.getItem('my_moments')) || [{cat: '🐱 养猫日常', desc: '主子今天格外粘人~'}];
-        let photos = JSON.parse(localStorage.getItem('my_photos')) || [
-            {url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500', caption: '可爱的主子日常 🐾'},
-            {url: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500', caption: '周末的咖啡与工作台 ☕'}
-        ];
-        let memos = JSON.parse(localStorage.getItem('my_memos')) || [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}];
+        ]);
+        let dailyTasks = safeGetStorage('my_daily', [{text: '背诵劳动合同法法条', done: false}, {text: '复习5个外企商务英语词汇', done: true}]);
+        let xhsTopics = safeGetStorage('my_xhs', [{title: '宜家兼职HR的一天是怎样的？', cat: 'HR职场日常', status: '构思中'}]);
+        let hrJobs = safeGetStorage('my_hrjobs', [{company: '某外企FMCG', position: 'HR Assistant', status: '面试中'}]);
+        let hrStudies = safeGetStorage('my_hrstudies', [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}]);
+        let englishWords = safeGetStorage('my_english', [{word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'}]);
+        let moments = safeGetStorage('my_moments', [{cat: '🐱 养猫日常', desc: '主子今天格外粘人~'}]);
+        let photos = safeGetStorage('my_photos', [
+            {url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop', caption: '可爱的主子日常 🐾'},
+            {url: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500&auto=format&fit=crop', caption: '周末的咖啡与工作台 ☕'}
+        ]);
+        let memos = safeGetStorage('my_memos', [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}]);
 
         function saveData() {
             localStorage.setItem('my_ikea', JSON.stringify(ikeaRules));
@@ -451,7 +457,6 @@
         function deletePhoto(i) { photos.splice(i, 1); saveData(); }
         function updatePhotoCaption(i, val) { photos[i].caption = val; saveData(); }
         
-        // 点击图片直接修改图片链接（URL）
         function updatePhotoUrl(i) {
             const newUrl = prompt("请输入新的图片直链 URL:", photos[i].url);
             if(newUrl !== null && newUrl.trim() !== "") {
@@ -544,7 +549,7 @@
             document.getElementById('photo-container').innerHTML = photos.map((p, i) => `
                 <div class="photo-card">
                     <div class="photo-img-wrap" onclick="updatePhotoUrl(${i})" title="点击更换图片链接">
-                        <img src="${p.url}" alt="${p.caption}" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500'">
+                        <img src="${p.url}" alt="${p.caption}" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&auto=format&fit=crop'">
                     </div>
                     <div class="photo-info">
                         <p contenteditable="true" onblur="updatePhotoCaption(${i}, this.innerText)" style="font-size:13px; font-weight:600; color:var(--text-main);">${p.caption}</p>
