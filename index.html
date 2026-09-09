@@ -416,7 +416,7 @@
             renderAll();
         }
 
-        // 一键重置词库按钮（可清除被污染的旧缓存）
+        // 一键重置词库按钮
         function resetEnglishStorage() {
             if(confirm("确定要重置并恢复标准的专八+外企高频词库吗？")) {
                 englishWords = [...defaultEnglishWords];
@@ -429,9 +429,9 @@
         function refreshDailyEnglish() {
             const uniqueList = getUniqueEnglishWords();
             if (uniqueList.length === 0) return;
-            // 每次点击随机步进切换下一批
+            // 每次点击随机步进切换下一批并安全取模
             englishOffset = (englishOffset + 15) % uniqueList.length;
-            saveData();
+            saveData(); // 确保保存并刷新视图
         }
 
         // 辅助函数：对当前词库按单词名称去重，防止重复显示
@@ -596,7 +596,7 @@
             renderIkea();
             renderPc();
 
-            // 渲染每日单词（使用去重后的唯一列表，保证每次展示不重复）
+            // 渲染每日单词（使用去重后的唯一列表，保证每次刷新展示全新单词）
             const uniqueEnglishList = getUniqueEnglishWords();
             let dailyListHtml = '';
             if (uniqueEnglishList.length > 0) {
