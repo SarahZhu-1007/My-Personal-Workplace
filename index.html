@@ -176,86 +176,54 @@
 
     <main>
         <header>
-            <div class="header-title" id="page-title"><span>📋</span> 每日计划</div>
-            <div class="header-right">
-                <div class="theme-switcher">
-                    <div class="theme-dot active-dot" style="background: #4a7c59;" onclick="setTheme('forest', this)" title="森林青"></div>
-                    <div class="theme-dot" style="background: #0077b6;" onclick="setTheme('ocean', this)" title="极光蓝"></div>
-                    <div class="theme-dot" style="background: #b56576;" onclick="setTheme('sakura', this)" title="樱花粉"></div>
-                    <div class="theme-dot" style="background: #273530;" onclick="setTheme('dark', this)" title="暗夜黑"></div>
+            <header>
+                <div class="header-title" id="page-title"><span>📋</span> 每日计划</div>
+                <div class="header-right">
+                    <div class="theme-switcher">
+                        <div class="theme-dot active-dot" style="background: #4a7c59;" onclick="setTheme('forest', this)" title="森林青"></div>
+                        <div class="theme-dot" style="background: #0077b6;" onclick="setTheme('ocean', this)" title="极光蓝"></div>
+                        <div class="theme-dot" style="background: #b56576;" onclick="setTheme('sakura', this)" title="樱花粉"></div>
+                        <div class="theme-dot" style="background: #273530;" onclick="setTheme('dark', this)" title="暗夜黑"></div>
+                    </div>
+                    <div class="header-info" id="current-date-str">加载中...</div>
                 </div>
-                <div class="header-info" id="current-date-str">加载中...</div>
-            </div>
+            </header>
         </header>
 
-        <!-- 1. 减脂塑形计划 (新增) -->
+        <!-- 1. 减脂塑形计划 (全可编辑版) -->
         <div id="tab-diet" class="content-body">
             <div class="card">
                 <h3 style="margin-bottom: 8px;">🥗 个人定制减脂塑形方案（161cm / 49kg 维持与线条优化）</h3>
                 <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
-                    ✨ <strong>核心原则</strong>：口味清淡为主，兼顾经期温柔滋补（红糖姜茶、银耳汤等汤汤水水），每周预留1-2次重口味解馋（如螺蛳粉，注意汤底适量少喝），运动主打低冲击、肩颈跟练、仰卧起坐核心及周末拉丁舞。
+                    ✨ <strong>核心原则</strong>：口味清淡为主，兼顾经期温柔滋补（红糖姜茶、银耳汤等汤汤水水），每周预留1-2次重口味解馋（如螺蛳粉，注意汤底适量少喝），运动主打低冲击、肩颈跟练、仰卧起坐核心及周末拉丁舞。<br>
+                    <span style="color:var(--brand-color);">💡 提示：下方表格及右侧应变指南所有内容均可直接点击修改并自动保存！</span>
                 </p>
             </div>
             <div class="grid-2">
                 <div class="card">
-                    <h3 style="margin-bottom: 14px;">📅 一周三餐与运动日程表</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                        <h3>📅 一周三餐与运动日程表</h3>
+                        <button class="btn" onclick="addDietRow()" style="padding: 6px 12px; font-size: 13px;">➕ 添加日程行</button>
+                    </div>
                     <table>
-                        <thead><tr><th>星期</th><th>运动安排 (低冲击/跟练)</th><th>三餐核心搭配参考</th></tr></thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>周一</strong></td>
-                                <td>居家肩颈拉伸 (15分钟) + 轻松平板支撑</td>
-                                <td><strong>早</strong>: 水煮蛋+全麦面包+黑咖啡<br><strong>午</strong>: 清蒸鱼+时令绿叶菜+杂粮饭<br><strong>晚</strong>: 番茄豆腐汤+虾仁</td>
-                            </tr>
-                            <tr>
-                                <td><strong>周二</strong></td>
-                                <td>仰卧起坐/卷腹核心训练 (15分钟)</td>
-                                <td><strong>早</strong>: 燕麦粥+水煮蛋<br><strong>午</strong>: 鸡胸肉沙拉（油醋汁）<br><strong>晚</strong>: 菌菇清汤+清炒时蔬</td>
-                            </tr>
-                            <tr>
-                                <td><strong>周三</strong></td>
-                                <td>办公室/居家肩颈放松跟练</td>
-                                <td><strong>早</strong>: 蒸紫薯+无糖豆浆<br><strong>午</strong>: 牛肉片+西兰花+荞麦面<br><strong>晚</strong>: 银耳百合汤+清炒小白菜</td>
-                            </tr>
-                            <tr>
-                                <td><strong>周四</strong></td>
-                                <td>低冲击全身轻燃脂跟练 (20分钟)</td>
-                                <td>🍜 <strong style="color:var(--brand-color);">重口味解馋日</strong>：螺蛳粉（配料全放，汤底不喝完，加个水煮蛋和青菜）</td>
-                            </tr>
-                            <tr>
-                                <td><strong>周五</strong></td>
-                                <td>睡前拉伸与核心放松</td>
-                                <td><strong>早</strong>: 全麦三明治+牛奶<br><strong>午</strong>: 虾仁蒸蛋+清炒时蔬+紫薯<br><strong>晚</strong>: 冬瓜海带汤+少量瘦肉</td>
-                            </tr>
-                            <tr>
-                                <td><strong>周六</strong></td>
-                                <td>自由休息 / 逛街轻有氧</td>
-                                <td>🍵 <strong style="color:var(--brand-color);">周末轻享日</strong>：午餐清淡，下午茶可适量享受甜品/奶茶（三分糖或代糖）</td>
-                            </tr>
-                            <tr>
-                                <td><strong>周日</strong></td>
-                                <td>💃 <strong style="color:var(--brand-color);">拉丁舞课 (1小时)</strong></td>
-                                <td><strong>早</strong>: 营养全麦卷<br><strong>午</strong>: 丰富碳水与蛋白质补充<br><strong>晚</strong>: 温暖轻食汤面</td>
-                            </tr>
-                        </tbody>
+                        <thead><tr><th>星期</th><th>运动安排 (低冲击/跟练)</th><th>三餐核心搭配参考</th><th>操作</th></tr></thead>
+                        <tbody id="diet-table-body"></tbody>
                     </table>
                 </div>
                 <div class="card">
-                    <h3 style="margin-bottom: 14px;">🌸 特殊时期与解馋应变指南</h3>
-                    <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13.5px; line-height: 1.5; color: var(--text-main);">
+                    <h3 style="margin-bottom: 14px;">🌸 特殊时期与解馋应变指南 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本直接修改)</span></h3>
+                    <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13.5px; line-height: 1.5; color: var(--text-main);" id="diet-tips-container">
                         <div style="background: var(--bg-color); padding: 12px; border-radius: 10px; border-left: 4px solid var(--brand-color);">
                             <strong>🔴 姨妈期饮食调理：</strong><br>
-                            想吃甜食和汤汤水水时，不要强行压抑。可选择：红糖姜茶、银耳红枣羹、黑糖芋圆汤或温热的豆浆。主食换成暖胃的汤面或小米粥，避免生冷，运动暂停，改为轻柔保暖。
+                            <span contenteditable="true" onblur="updateDietTip(0, this.innerText)">想吃甜食和汤汤水水时，不要强行压抑。可选择：红糖姜茶、银耳红枣羹、黑糖芋圆汤或温热的豆浆。主食换成暖胃的汤面或小米粥，避免生冷，运动暂停，改为轻柔保暖。</span>
                         </div>
                         <div style="background: var(--bg-color); padding: 12px; border-radius: 10px; border-left: 4px solid #d9534f;">
                             <strong>🌶️ 重口味（螺蛳粉/火锅）解馋法则：</strong><br>
-                            一周安排1-2次完全没问题！诀窍在于：
-                            1. 正常享受美味，但**螺蛳粉的汤底不要大口喝完**（减少钠摄入，第二天不易水肿）。
-                            2. 额外在粉里烫一把青菜和一颗鸡蛋，补充膳食纤维与蛋白质，营养更均衡。
+                            <span contenteditable="true" onblur="updateDietTip(1, this.innerText)">一周安排1-2次完全没问题！诀窍在于：1. 正常享受美味，但螺蛳粉的汤底不要大口喝完（减少钠摄入，第二天不易水肿）。2. 额外在粉里烫一把青菜和一颗鸡蛋，补充膳食纤维与蛋白质，营养更均衡。</span>
                         </div>
                         <div style="background: var(--bg-color); padding: 12px; border-radius: 10px; border-left: 4px solid #0077b6;">
                             <strong>💪 居家运动小建议：</strong><br>
-                            因为你不爱剧烈运动，仰卧起坐和肩颈跟练非常合适。注意仰卧起坐时保护腰椎，尽量用腹部发力；肩颈跟练每天10-15分钟，能有效改善长期伏案（或HR日常办公）带来的疲劳。
+                            <span contenteditable="true" onblur="updateDietTip(2, this.innerText)">因为你不爱剧烈运动，仰卧起坐和肩颈跟练非常合适。注意仰卧起坐时保护腰椎，尽量用腹部发力；肩颈跟练每天10-15分钟，能有效改善长期伏案（或HR日常办公）带来的疲劳。</span>
                         </div>
                     </div>
                 </div>
@@ -510,6 +478,23 @@
             }
         }
 
+        // 数据模型初始化
+        let dietSchedule = safeGetStorage('my_diet_schedule', [
+            {day: '周一', sport: '居家肩颈拉伸 (15分钟) + 轻松平板支撑', food: '早: 水煮蛋+全麦面包+黑咖啡<br>午: 清蒸鱼+时令绿叶菜+杂粮饭<br>晚: 番茄豆腐汤+虾仁'},
+            {day: '周二', sport: '仰卧起坐/卷腹核心训练 (15分钟)', food: '早: 燕麦粥+水煮蛋<br>午: 鸡胸肉沙拉（油醋汁）<br>晚: 菌菇清汤+清炒时蔬'},
+            {day: '周三', sport: '办公室/居家肩颈放松跟练', food: '早: 蒸紫薯+无糖豆浆<br>午: 牛肉片+西兰花+荞麦面<br>晚: 银耳百合汤+清炒小白菜'},
+            {day: '周四', sport: '低冲击全身轻燃脂跟练 (20分钟)', food: '🍜 重口味解馋日：螺蛳粉（配料全放，汤底不喝完，加个水煮蛋和青菜）'},
+            {day: '周五', sport: '睡前拉伸与核心放松', food: '早: 全麦三明治+牛奶<br>午: 虾仁蒸蛋+清炒时蔬+紫薯<br>晚: 冬瓜海带汤+少量瘦肉'},
+            {day: '周六', sport: '自由休息 / 逛街轻有氧', food: '🍵 周末轻享日：午餐清淡，下午茶可适量享受甜品/奶茶（三分糖或代糖）'},
+            {day: '周日', sport: '💃 拉丁舞课 (1小时)', food: '早: 营养全麦卷<br>午: 丰富碳水与蛋白质补充<br>晚: 温暖轻食汤面'}
+        ]);
+
+        let dietTips = safeGetStorage('my_diet_tips', [
+            "想吃甜食和汤汤水水时，不要强行压抑。可选择：红糖姜茶、银耳红枣羹、黑糖芋圆汤或温热的豆浆。主食换成暖胃的汤面或小米粥，避免生冷，运动暂停，改为轻柔保暖。",
+            "一周安排1-2次完全没问题！诀窍在于：1. 正常享受美味，但螺蛳粉的汤底不要大口喝完（减少钠摄入，第二天不易水肿）。2. 额外在粉里烫一把青菜和一颗鸡蛋，补充膳食纤维与蛋白质，营养更均衡。",
+            "因为你不爱剧烈运动，仰卧起坐和肩颈跟练非常合适。注意仰卧起坐时保护腰椎，尽量用腹部发力；肩颈跟练每天10-15分钟，能有效改善长期伏案（或HR日常办公）带来的疲劳。"
+        ]);
+
         let ikeaRules = safeGetStorage('my_ikea', [
             {topic: '试用期政策', detail: '试用期最长不超过6个月，关注转正考核标准', note: '核心合规'},
             {topic: '薪资与第13薪', detail: '每月25日发放月薪，包含第13个月薪资计划', note: '薪酬福利'},
@@ -558,6 +543,8 @@
         let englishOffset = safeGetStorage('my_eng_offset', 0);
 
         function saveData() {
+            localStorage.setItem('my_diet_schedule', JSON.stringify(dietSchedule));
+            localStorage.setItem('my_diet_tips', JSON.stringify(dietTips));
             localStorage.setItem('my_ikea', JSON.stringify(ikeaRules));
             localStorage.setItem('my_pc', JSON.stringify(pcCulture));
             localStorage.setItem('my_daily', JSON.stringify(dailyTasks));
@@ -596,6 +583,24 @@
                 seen.add(key);
                 return true;
             });
+        }
+
+        // 减脂计划专属交互函数
+        function addDietRow() {
+            dietSchedule.push({day: '某天', sport: '输入运动安排', food: '输入三餐搭配'});
+            saveData();
+        }
+        function deleteDietRow(i) {
+            dietSchedule.splice(i, 1);
+            saveData();
+        }
+        function updateDiet(i, field, val) {
+            dietSchedule[i][field] = val;
+            saveData();
+        }
+        function updateDietTip(i, val) {
+            dietTips[i] = val;
+            saveData();
         }
 
         function addIkeaItem() {
@@ -736,6 +741,15 @@
         }
 
         function renderCurrentTab() {
+            if(currentActiveTab === 'diet') {
+                document.getElementById('diet-table-body').innerHTML = dietSchedule.map((d, i) => `
+                    <tr>
+                        <td><strong><span contenteditable="true" onblur="updateDiet(${i}, 'day', this.innerText)">${d.day}</span></strong></td>
+                        <td><span contenteditable="true" onblur="updateDiet(${i}, 'sport', this.innerText)">${d.sport}</span></td>
+                        <td><span contenteditable="true" onblur="updateDiet(${i}, 'food', this.innerHTML)">${d.food}</span></td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteDietRow(${i})">删</button></td>
+                    </tr>`).join('');
+            }
             if(currentActiveTab === 'ikea') renderIkea();
             if(currentActiveTab === 'pc') {
                 document.getElementById('pc-table-body').innerHTML = pcCulture.map((p, i) => `
