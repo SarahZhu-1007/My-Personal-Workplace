@@ -138,7 +138,7 @@
         @media(max-width: 768px) {
             html, body { height: auto; overflow: auto; }
             body { flex-direction: column; }
-            aside { width: 100%; min-width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 12px; }
+            aside { width: 100%; min-width: 100%; height: auto; flex-direction: auto; overflow-x: auto; padding: 12px; }
             .logo-area { display: none; }
             .pet-house { display: none; }
             main { height: auto; overflow: visible; }
@@ -304,26 +304,27 @@
         <div id="tab-english" class="content-body">
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-                    <h3>🌐 英语八级 + 外企常用词汇 (每日 15 个打卡)</h3>
+                    <h3>🌐 英语专八 + 外企高频商务词汇 (每日 15 个打卡)</h3>
                     <div style="display: flex; gap: 8px;">
                         <button class="btn btn-danger" onclick="resetEnglishStorage()" style="padding: 6px 12px; font-size: 13px;">重置默认词库</button>
                         <button class="btn" onclick="refreshDailyEnglish()">🔄 刷新今日单词</button>
                     </div>
                 </div>
                 <table>
-                    <thead><tr><th>#</th><th>商务与专八词汇 / 表达</th><th>释义与高频场景</th></tr></thead>
+                    <thead><tr><th>#</th><th>词汇/表达</th><th>标准音标</th><th>中文释义与高频商务例句</th></tr></thead>
                     <tbody id="eng-daily-table-body"></tbody>
                 </table>
             </div>
             <div class="card">
                 <h3 style="margin-bottom: 16px;">📚 完整商务英语词库管理 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击表格内容可直接修改)</span></h3>
                 <div class="form-group">
-                    <input type="text" id="eng-word" placeholder="商务/专八词汇" style="flex:1;">
-                    <input type="text" id="eng-mean" placeholder="中文释义 / 场景" style="flex:2;">
+                    <input type="text" id="eng-word" placeholder="商务词汇" style="flex:1;">
+                    <input type="text" id="eng-phonetic" placeholder="音标 (如 /'tælənt/)" style="flex:1;">
+                    <input type="text" id="eng-mean" placeholder="释义与例句" style="flex:2;">
                     <button class="btn" onclick="addEnglish()">添加进词库</button>
                 </div>
                 <table>
-                    <thead><tr><th>词汇 / 表达</th><th>释义与场景</th><th>操作</th></tr></thead>
+                    <thead><tr><th>词汇 / 表达</th><th>音标</th><th>释义与高频例句</th><th>操作</th></tr></thead>
                     <tbody id="eng-table-body"></tbody>
                 </table>
             </div>
@@ -393,7 +394,6 @@
             document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active-dot'));
             if(el) el.classList.add('active-dot');
         }
-        // 初始化加载保存的主题
         const savedTheme = localStorage.getItem('my_theme') || 'forest';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.querySelectorAll('.theme-dot').forEach(d => {
@@ -401,7 +401,6 @@
             else d.classList.remove('active-dot');
         });
 
-        // 记录当前激活的Tab，实现按需局部渲染（极大提速）
         let currentActiveTab = 'daily';
 
         function switchTab(tabId, el) {
@@ -411,10 +410,9 @@
             if(el) el.classList.add('active');
             document.getElementById('page-title').innerHTML = el ? el.innerHTML : '';
             currentActiveTab = tabId;
-            renderCurrentTab(); // 仅渲染当前激活的Tab，杜绝卡顿
+            renderCurrentTab();
         }
 
-        // 萌宠互动对话
         function petClick(type) {
             const msgs = {
                 cat: ["🐱 喵~ 主人今天也要元气满满哦！", "🐾 摸摸猫头，工作烦恼全消~", "🐟 什么时候开饭呀，铲屎官？"],
@@ -422,8 +420,7 @@
                 bunny: ["🐰 蹦蹦跳跳，好运来到~", "🥕 吃个胡萝卜补充能量！", "✨ 今天的心情也是晴空万里~"]
             };
             const list = msgs[type];
-            const randomMsg = list[Math.floor(Math.random() * list.length)];
-            document.getElementById('pet-speech').innerText = randomMsg;
+            document.getElementById('pet-speech').innerText = list[Math.floor(Math.random() * list.length)];
         }
 
         const now = new Date();
@@ -454,26 +451,26 @@
         let hrStudies = safeGetStorage('my_hrstudies', [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}]);
         
         const defaultEnglishWords = [
-            {word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'},
-            {word: 'Onboarding', mean: '入职引导/新员工入职流程'},
-            {word: 'Key Performance Indicator (KPI)', mean: '关键绩效指标'},
-            {word: 'Performance Review', mean: '绩效考核/述职评估'},
-            {word: 'Compensation & Benefits (C&B)', mean: '薪酬福利板块'},
-            {word: 'Employee Engagement', mean: '员工敬业度/归属感'},
-            {word: 'Internal Mobility', mean: '内部转岗/内部职业流动'},
-            {word: 'Exit Interview', mean: '离职面谈'},
-            {word: 'Probation Period', mean: '试用期'},
-            {word: 'Severance Pay', mean: '经济补偿金/离职补偿'},
-            {word: 'Headcount Budget', mean: '编制预算/人员预算'},
-            {word: 'Cross-functional Team', mean: '跨职能团队/跨部门协作'},
-            {word: 'Action Plan', mean: '行动计划/落地执行方案'},
-            {word: 'Follow-up', mean: '后续跟进/追踪落实'},
-            {word: 'Alignment', mean: '对齐/目标一致'},
-            {word: 'Benchmark', mean: '基准/对标管理（专八核心词）'},
-            {word: 'Comprehensive', mean: '全面的/综合的（专八核心词）'},
-            {word: 'Substantiate', mean: '证实/证明（专八高频高级词汇）'},
-            {word: 'Mitigate', mean: '减轻/缓和风险（高级商务词汇）'},
-            {word: 'Prerequisite', mean: '先决条件/前提（专八核心词）'}
+            {word: 'Talent Acquisition (TA)', phonetic: "/'tælənt əˌkwɪˈzɪʃn/", mean: '人才获取/招聘；外企HR高频词。<br><span style="color:var(--text-secondary);font-size:13px;">例: Our TA team is scaling up to hire 50 new engineers. (我们的招聘团队正在扩大规模以招募50名新工程师。)</span>'},
+            {word: 'Onboarding', phonetic: "/ˈɑːnbɔːrdɪŋ/", mean: '入职引导/新员工融入流程。<br><span style="color:var(--text-secondary);font-size:13px;">例: A smooth onboarding process boosts new hire retention. (顺畅的入职引导流程能提高新员工留存率。)</span>'},
+            {word: 'Key Performance Indicator', phonetic: "/kiː pərˈfɔːrməns ˈɪndɪkeɪtər/", mean: '关键绩效指标 (KPI)。<br><span style="color:var(--text-secondary);font-size:13px;">例: Every department sets clear KPIs for the fiscal year. (每个部门都为财年设定了清晰的KPI。)</span>'},
+            {word: 'Performance Review', phonetic: "/pərˈfɔːrməns rɪˈvjuː/", mean: '绩效考核/述职评估。<br><span style="color:var(--text-secondary);font-size:13px;">例: Mid-year performance reviews will start next Monday. (年中绩效考核将于下周一开始。)</span>'},
+            {word: 'Compensation & Benefits', phonetic: "/ˌkɑːmpenˈseɪʃn ən ˈbenɪfɪts/", mean: '薪酬福利板块 (C&B)。<br><span style="color:var(--text-secondary);font-size:13px;">例: She is specialized in designing competitive C&B packages. (她专长于设计具有竞争力的薪酬福利方案。)</span>'},
+            {word: 'Employee Engagement', phonetic: "/ɪmˈplɔɪiː ɪnˈɡeɪdʒmənt/", mean: '员工敬业度/归属感。<br><span style="color:var(--text-secondary);font-size:13px;">例: We launched a survey to measure employee engagement. (我们发起了一项调查来衡量员工敬业度。)</span>'},
+            {word: 'Internal Mobility', phonetic: "/ɪnˈtɜːrnl moʊˈbɪləti/", mean: '内部转岗/内部职业流动。<br><span style="color:var(--text-secondary);font-size:13px;">例: The company strongly encourages internal mobility for career growth. (公司大力鼓励内部流动以促进职业发展。)</span>'},
+            {word: 'Exit Interview', phonetic: "/ˈeksɪt ˈɪntərvjuː/", mean: '离职面谈。<br><span style="color:var(--text-secondary);font-size:13px;">例: HR conducts an exit interview to gather constructive feedback. (HR进行离职面谈以收集建设性反馈。)</span>'},
+            {word: 'Probation Period', phonetic: "/proʊˈbeɪʃn ˈpɪriəd/", mean: '试用期。<br><span style="color:var(--text-secondary);font-size:13px;">例: Her probation period will end successfully next month. (她的试用期将于下个月顺利结束。)</span>'},
+            {word: 'Severance Pay', phonetic: "/ˈsevərəns peɪ/", mean: '经济补偿金/离职补偿。<br><span style="color:var(--text-secondary);font-size:13px;">例: The layoff package includes standard severance pay. (裁员补偿包中包含了标准的经济补偿金。)</span>'},
+            {word: 'Headcount Budget', phonetic: "/ˈhedkaʊnt ˈbʌdʒɪt/", mean: '编制预算/人员预算。<br><span style="color:var(--text-secondary);font-size:13px;">例: We need to freeze headcount budget for Q3. (我们需要冻结第三季度的编制预算。)</span>'},
+            {word: 'Cross-functional Team', phonetic: "/krɔːs ˈfʌŋkʃənl tiːm/", mean: '跨职能团队/跨部门协作。<br><span style="color:var(--text-secondary);font-size:13px;">例: This project requires close collaboration from a cross-functional team. (该项目需要跨职能团队的紧密协作。)</span>'},
+            {word: 'Action Plan', phonetic: "/ˈækʃn plæn/", mean: '行动计划/落地执行方案。<br><span style="color:var(--text-secondary);font-size:13px;">例: Please submit your detailed action plan by Friday. (请在周五前提交你详细的行动计划。)</span>'},
+            {word: 'Follow-up', phonetic: "/ˈfɑːloʊ ʌp/", mean: '后续跟进/追踪落实。<br><span style="color:var(--text-secondary);font-size:13px;">例: Let us schedule a follow-up meeting next week. (我们安排下周开个跟进会议吧。)</span>'},
+            {word: 'Alignment', phonetic: "/əˈlaɪnmənt/", mean: '对齐/目标一致。<br><span style="color:var(--text-secondary);font-size:13px;">例: This meeting is to ensure strategic alignment across teams. (这次会议旨在确保各团队之间的战略目标对齐。)</span>'},
+            {word: 'Benchmark', phonetic: "/ˈbentʃmɑːrk/", mean: '基准/对标管理（专八核心词）<br><span style="color:var(--text-secondary);font-size:13px;">例: We benchmarked our salary structure against top tech firms. (我们对标顶尖科技公司调整了薪酬结构。)</span>'},
+            {word: 'Comprehensive', phonetic: "/ˌkɑːmprɪˈhensɪv/", mean: '全面的/综合的（专八核心词）<br><span style="color:var(--text-secondary);font-size:13px;">例: A comprehensive review will be conducted. (将会进行一次全面的评估。)</span>'},
+            {word: 'Substantiate', phonetic: "/səbˈstænʃiāt/", mean: '证实/证明（专八高级词汇）<br><span style="color:var(--text-secondary);font-size:13px;">例: The candidate failed to substantiate his claims with data. (候选人未能用数据证实他的说法。)</span>'},
+            {word: 'Mitigate', phonetic: "/ˈmɪtɪɡeɪt/", mean: '减轻/缓和风险（高级商务词汇）<br><span style="color:var(--text-secondary);font-size:13px;">例: Measures must be taken to mitigate compliance risks. (必须采取措施来减轻合规风险。)</span>'},
+            {word: 'Prerequisite', phonetic: "/priːˈrekwɪzɪt/", mean: '先决条件/前提（专八核心词）<br><span style="color:var(--text-secondary);font-size:13px;">例: Fluent English is a prerequisite for this position. (流利的英语是这个岗位的先决条件。)</span>'}
         ];
 
         let englishWords = safeGetStorage('my_english', defaultEnglishWords);
@@ -501,7 +498,7 @@
         }
 
         function resetEnglishStorage() {
-            if(confirm("确定要重置并恢复标准的专八+外企高频词库吗？")) {
+            if(confirm("确定要重置并恢复标准的专八+外企高频带音标及例句词库吗？")) {
                 englishWords = [...defaultEnglishWords];
                 englishOffset = 0;
                 saveData();
@@ -526,7 +523,6 @@
             });
         }
 
-        // 数据增删改操作函数
         function addIkeaItem() {
             const topic = prompt("请输入核心板块名称:");
             const detail = prompt("请输入政策细则:");
@@ -598,10 +594,12 @@
 
         function addEnglish() {
             const word = document.getElementById('eng-word').value.trim();
+            const phonetic = document.getElementById('eng-phonetic').value.trim();
             const mean = document.getElementById('eng-mean').value.trim();
             if(!word) return;
-            englishWords.push({word, mean});
+            englishWords.push({word, phonetic: phonetic || '/.../', mean: mean || '暂无释义与例句'});
             document.getElementById('eng-word').value = '';
+            document.getElementById('eng-phonetic').value = '';
             document.getElementById('eng-mean').value = '';
             saveData();
         }
@@ -630,7 +628,6 @@
         }
         function deletePhoto(i) { photos.splice(i, 1); saveData(); }
         function updatePhotoCaption(i, val) { photos[i].caption = val; saveData(); }
-        
         function updatePhotoUrl(i) {
             const newUrl = prompt("请输入新的图片直链 URL:", photos[i].url);
             if(newUrl !== null && newUrl.trim() !== "") {
@@ -649,7 +646,6 @@
         function deleteMemo(i) { memos.splice(i, 1); saveData(); }
         function updateMemo(i, val) { memos[i].text = val; saveData(); }
 
-        // 局部视图渲染函数（按需渲染，显著提升性能）
         function renderIkea() {
             const keyword = document.getElementById('ikea-search').value.toLowerCase();
             const filtered = ikeaRules.map((item, originalIndex) => ({item, originalIndex})).filter(({item}) => 
@@ -718,17 +714,19 @@
                             <tr>
                                 <td>${i + 1}</td>
                                 <td><strong>${item.word}</strong></td>
+                                <td style="color:var(--brand-color); font-family:monospace; font-weight:600;">${item.phonetic || '/.../'}</td>
                                 <td>${item.mean}</td>
                             </tr>`;
                     }
                 } else {
-                    dailyListHtml = `<tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">请在下方词库添加词汇</td></tr>`;
+                    dailyListHtml = `<tr><td colspan="4" style="text-align:center; color:var(--text-secondary);">请在下方词库添加词汇</td></tr>`;
                 }
                 document.getElementById('eng-daily-table-body').innerHTML = dailyListHtml;
 
                 document.getElementById('eng-table-body').innerHTML = englishWords.map((e, i) => `
                     <tr>
                         <td><strong><span contenteditable="true" onblur="updateEnglish(${i}, 'word', this.innerText)">${e.word}</span></strong></td>
+                        <td style="font-family:monospace; color:var(--brand-color);"><span contenteditable="true" onblur="updateEnglish(${i}, 'phonetic', this.innerText)">${e.phonetic || '/.../'}</span></td>
                         <td><span contenteditable="true" onblur="updateEnglish(${i}, 'mean', this.innerText)">${e.mean}</span></td>
                         <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteEnglish(${i})">删</button></td>
                     </tr>`).join('');
@@ -763,7 +761,6 @@
             }
         }
 
-        // 首次加载初始化当前视图
         renderCurrentTab();
     </script>
 </body>
