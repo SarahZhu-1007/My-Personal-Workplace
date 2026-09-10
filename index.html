@@ -209,7 +209,7 @@
         <div class="nav-item" onclick="switchTab('hr', this)"><span>⚖️</span> HR求职与专业进修</div>
         <div class="nav-item" onclick="switchTab('english', this)"><span>🌐</span> 外企商务英语</div>
         <div class="nav-item" onclick="switchTab('moments', this)"><span>☕</span> 生活小确幸</div>
-        <div class="nav-item" onclick="switchTab('photos', this)"><span>🖼️</span> 图库相册</div>
+        <div class="nav-item" onclick="switchTab('photos', this)"><span>🖼️</span> 存档相册</div>
         <div class="nav-item" onclick="switchTab('memos', this)"><span>📝</span> 备忘录</div>
         <div class="nav-item" onclick="switchTab('music', this)"><span>🎵</span> 网易云音乐</div>
 
@@ -244,7 +244,7 @@
                 <h3 style="margin-bottom: 8px;">🥗 个人定制减脂塑形方案（161cm / 49kg 维持与线条优化）</h3>
                 <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;">
                     ✨ <strong>核心原则</strong>：口味清淡为主，兼顾经期温柔滋补（红糖姜茶、银耳汤等汤汤水水），每周预留1-2次重口味解馋（如螺蛳粉，注意汤底适量少喝），运动主打低冲击、肩颈跟练、仰卧起坐核心及周末拉丁舞。<br>
-                    <span style="color:var(--brand-color);">💡 提示：下方表格及右侧应变指南所有内容均可直接点击修改并自动保存！</span>
+                    <span style="color:var(--brand-color);">💡 提示：下方表格、应变指南以及右下角的体脂秤数据均可直接点击修改并自动保存！</span>
                 </p>
             </div>
             <div class="grid-2">
@@ -276,6 +276,35 @@
                             <span contenteditable="true" onblur="updateDietTip(2, this.innerText)">因为你不爱剧烈运动，仰卧起坐和肩颈跟练非常合适。注意仰卧起坐时保护腰椎，尽量用腹部发力；肩颈跟练每天10-15分钟，能有效改善长期伏案（或HR日常办公）带来的疲劳。</span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 新增：右下角体脂秤数据模块 -->
+            <div class="card" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <h3>📊 体脂秤测量数据管理 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(记录体重、体脂率、肌肉量等)</span></h3>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="scale-date" placeholder="日期 (如 09/10)" style="width: 110px; padding: 6px 10px; font-size: 13px;">
+                        <input type="text" id="scale-weight" placeholder="体重 (kg)" style="width: 90px; padding: 6px 10px; font-size: 13px;">
+                        <input type="text" id="scale-fat" placeholder="体脂率 (%)" style="width: 90px; padding: 6px 10px; font-size: 13px;">
+                        <input type="text" id="scale-muscle" placeholder="肌肉量 (kg)" style="width: 90px; padding: 6px 10px; font-size: 13px;">
+                        <button class="btn" onclick="addScaleData()" style="padding: 6px 14px; font-size: 13px;">➕ 记录数据</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>记录日期</th>
+                                <th>体重 (kg)</th>
+                                <th>体脂率 (%)</th>
+                                <th>肌肉量 (kg)</th>
+                                <th>状态/备注</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scale-table-body"></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -457,10 +486,10 @@
             </div>
         </div>
 
-        <!-- 🖼️ 个人精美相册专区 (本地直接上传) -->
+        <!-- 🖼️ 存档相册专区 (本地直接上传) -->
         <div id="tab-photos" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">🖼️ 图库相册 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击下方选择本地图片直接上传)</span></h3>
+                <h3 style="margin-bottom: 14px;">🖼️ 存档相册 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击下方选择本地图片直接上传)</span></h3>
                 <div class="form-group">
                     <input type="file" id="photo-file-input" accept="image/*" style="flex:2; padding: 6px;">
                     <input type="text" id="photo-caption" placeholder="图片描述/标题" style="flex:2;">
@@ -563,6 +592,12 @@
             "因为你不爱剧烈运动，仰卧起坐和肩颈跟练非常合适。注意仰卧起坐时保护腰椎，尽量用腹部发力；肩颈跟练每天10-15分钟，能有效改善长期伏案（或HR日常办公）带来的疲劳。"
         ]);
 
+        // 体脂秤数据初始化
+        let scaleData = safeGetStorage('my_scale_data', [
+            {date: '09/01', weight: '49.2', fat: '20.5', muscle: '38.1', note: '维持期状态良好'},
+            {date: '09/08', weight: '49.0', fat: '20.2', muscle: '38.3', note: '线条微调中'}
+        ]);
+
         let ikeaRules = safeGetStorage('my_ikea', [
             {topic: '试用期政策', detail: '试用期最长不超过6个月，关注转正考核标准', note: '核心合规'},
             {topic: '薪资与第13薪', detail: '每月25日发放月薪，包含第13个月薪资计划', note: '薪酬福利'},
@@ -613,6 +648,7 @@
         function saveData() {
             localStorage.setItem('my_diet_schedule', JSON.stringify(dietSchedule));
             localStorage.setItem('my_diet_tips', JSON.stringify(dietTips));
+            localStorage.setItem('my_scale_data', JSON.stringify(scaleData));
             localStorage.setItem('my_ikea', JSON.stringify(ikeaRules));
             localStorage.setItem('my_pc', JSON.stringify(pcCulture));
             localStorage.setItem('my_daily', JSON.stringify(dailyTasks));
@@ -659,6 +695,23 @@
         function deleteDietRow(i) { dietSchedule.splice(i, 1); saveData(); }
         function updateDiet(i, field, val) { dietSchedule[i][field] = val; saveData(); }
         function updateDietTip(i, val) { dietTips[i] = val; saveData(); }
+
+        // 体脂秤数据操作方法
+        function addScaleData() {
+            const date = document.getElementById('scale-date').value.trim() || `${now.getMonth()+1}/${now.getDate()}`;
+            const weight = document.getElementById('scale-weight').value.trim();
+            const fat = document.getElementById('scale-fat').value.trim();
+            const muscle = document.getElementById('scale-muscle').value.trim();
+            if(!weight) { alert("请至少填写体重数据！"); return; }
+            scaleData.unshift({date, weight, fat: fat || '--', muscle: muscle || '--', note: '日常测量记录'});
+            document.getElementById('scale-date').value = '';
+            document.getElementById('scale-weight').value = '';
+            document.getElementById('scale-fat').value = '';
+            document.getElementById('scale-muscle').value = '';
+            saveData();
+        }
+        function deleteScaleData(i) { scaleData.splice(i, 1); saveData(); }
+        function updateScaleData(i, field, val) { scaleData[i][field] = val; saveData(); }
 
         function addIkeaItem() {
             const topic = prompt("请输入核心板块名称:");
@@ -826,6 +879,17 @@
                         <td><span contenteditable="true" onblur="updateDiet(${i}, 'sport', this.innerText)">${d.sport}</span></td>
                         <td><span contenteditable="true" onblur="updateDiet(${i}, 'food', this.innerHTML)">${d.food}</span></td>
                         <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteDietRow(${i})">删</button></td>
+                    </tr>`).join('');
+
+                // 渲染体脂秤数据表格
+                document.getElementById('scale-table-body').innerHTML = scaleData.map((s, i) => `
+                    <tr>
+                        <td><span contenteditable="true" onblur="updateScaleData(${i}, 'date', this.innerText)">${s.date}</span></td>
+                        <td><strong><span contenteditable="true" onblur="updateScaleData(${i}, 'weight', this.innerText)">${s.weight}</span></strong></td>
+                        <td><span contenteditable="true" onblur="updateScaleData(${i}, 'fat', this.innerText)">${s.fat}</span></td>
+                        <td><span contenteditable="true" onblur="updateScaleData(${i}, 'muscle', this.innerText)">${s.muscle}</span></td>
+                        <td><span contenteditable="true" onblur="updateScaleData(${i}, 'note', this.innerText)">${s.note}</span></td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteScaleData(${i})">删</button></td>
                     </tr>`).join('');
             }
             if(currentActiveTab === 'ikea') renderIkea();
