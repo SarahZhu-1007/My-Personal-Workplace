@@ -1,83 +1,139 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="forest">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Workspace</title>
     <style>
-        :root {
-            --bg-color: #fcfbf9;
+        /* 主题色彩系统 */
+        :root[data-theme="forest"] {
+            --bg-color: #f7f9f8;
             --sidebar-bg: #ffffff;
             --card-bg: #ffffff;
-            --border-color: #eae5df;
-            --text-main: #2d3748;
-            --text-secondary: #718096;
-            --brand-color: #5a7d7c;
-            --brand-hover: #456362;
-            --danger-color: #e53e3e;
-            --shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            --ikea-blue: #0058ab;
-            --ikea-yellow: #ffcc00;
+            --border-color: #e2e8e4;
+            --text-main: #2c3e35;
+            --text-secondary: #738a7c;
+            --brand-color: #4a7c59;
+            --brand-hover: #3a6347;
+            --brand-light: #e8f2ec;
+            --danger-color: #d9534f;
+            --shadow: 0 4px 20px rgba(74, 124, 89, 0.06);
+            --quark-color: #107c41;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        :root[data-theme="ocean"] {
+            --bg-color: #f4f8fb;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #e1ebf2;
+            --text-main: #1e3a4c;
+            --text-secondary: #627d98;
+            --brand-color: #0077b6;
+            --brand-hover: #005f93;
+            --brand-light: #e1f2fc;
+            --danger-color: #d9534f;
+            --shadow: 0 4px 20px rgba(0, 119, 182, 0.06);
+            --quark-color: #0077b6;
+        }
+        :root[data-theme="sakura"] {
+            --bg-color: #fcf6f7;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #f0e1e5;
+            --text-main: #4a2e35;
+            --text-secondary: #9e7a83;
+            --brand-color: #b56576;
+            --brand-hover: #9c5260;
+            --brand-light: #fce8ec;
+            --danger-color: #d9534f;
+            --shadow: 0 4px 20px rgba(181, 101, 118, 0.06);
+            --quark-color: #b56576;
+        }
+        :root[data-theme="dark"] {
+            --bg-color: #121816;
+            --sidebar-bg: #1a221f;
+            --card-bg: #1a221f;
+            --border-color: #273530;
+            --text-main: #e2e8e4;
+            --text-secondary: #9aa8a1;
+            --brand-color: #5bb074;
+            --brand-hover: #4a9460;
+            --brand-light: #203326;
+            --danger-color: #e55353;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --quark-color: #2e9b57;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background-color 0.3s, border-color 0.3s, color 0.3s; }
         
         html, body { height: 100%; width: 100%; overflow: hidden; background-color: var(--bg-color); color: var(--text-main); }
         body { display: flex; }
 
-        /* 左侧导航 */
-        aside { width: 250px; min-width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 4px; z-index: 10; height: 100%; overflow-y: auto; }
-        .logo-area { font-size: 15px; font-weight: 700; color: var(--brand-color); padding: 0 12px 14px 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { padding: 9px 12px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; display: flex; align-items: center; gap: 10px; user-select: none; }
-        .nav-item:hover { background: #f4f6f5; color: var(--text-main); }
-        .nav-item.active { background: #eaf1f0; color: var(--brand-color); font-weight: 600; }
+        /* 左侧现代化导航 */
+        aside { width: 260px; min-width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px 16px; gap: 6px; z-index: 10; height: 100%; overflow-y: auto; }
+        .logo-area { font-size: 16px; font-weight: 700; color: var(--brand-color); padding: 0 12px 16px 12px; border-bottom: 1px solid var(--border-color); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .nav-item { padding: 10px 14px; border-radius: 10px; color: var(--text-secondary); cursor: pointer; font-size: 13.5px; font-weight: 500; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; gap: 12px; user-select: none; }
+        .nav-item:hover { background: var(--brand-light); color: var(--brand-color); transform: translateX(2px); }
+        .nav-item.active { background: var(--brand-light); color: var(--brand-color); font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
-        /* 侧边栏底部卡通宠物屋 */
-        .pet-house { margin-top: auto; padding: 10px; background: #f4f6f5; border-radius: 10px; display: flex; align-items: center; justify-content: space-around; font-size: 22px; border: 1px dashed var(--border-color); }
+        /* 左侧底部卡通宠物小屋 */
+        .pet-house { margin-top: auto; padding: 12px; background: var(--bg-color); border-radius: 12px; display: flex; flex-direction: column; gap: 8px; border: 1px dashed var(--border-color); }
+        .pet-header { display: flex; align-items: center; justify-content: space-around; }
         .pet-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: var(--text-secondary); gap: 2px; cursor: pointer; transition: transform 0.2s; }
-        .pet-item:hover { transform: scale(1.15); }
-        .pet-emoji { font-size: 22px; }
+        .pet-item:hover { transform: scale(1.15); color: var(--brand-color); }
+        .pet-emoji { font-size: 24px; }
+        .pet-dialog { font-size: 12px; background: var(--card-bg); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-main); text-align: center; min-height: 34px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
 
         /* 右侧主体 */
         main { flex-grow: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
-        header { height: 64px; min-height: 64px; background: #ffffff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
-        .header-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        header { height: 68px; min-height: 68px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 36px; }
+        .header-title { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--text-main); }
+        .header-right { display: flex; align-items: center; gap: 16px; }
         .header-info { font-size: 13px; color: var(--text-secondary); }
 
-        .content-body { flex-grow: 1; padding: 24px 32px; overflow-y: auto; display: none; height: calc(100% - 64px); }
-        .content-body.active { display: block; }
+        /* 主题切换器 */
+        .theme-switcher { display: flex; gap: 6px; background: var(--bg-color); padding: 4px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .theme-dot { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.2s; }
+        .theme-dot:hover { transform: scale(1.15); }
+        .theme-dot.active-dot { border-color: var(--text-main); }
 
-        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-        .form-group { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-        input, select, textarea { padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; outline: none; background: #fff; color: var(--text-main); }
-        input:focus, select:focus, textarea:focus { border-color: var(--brand-color); }
-        .btn { background: var(--brand-color); color: #fff; border: none; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
-        .btn:hover { background: var(--brand-hover); }
-        .btn-quark { background: #107c41; }
-        .btn-quark:hover { background: #0e6b37; }
-        .btn-danger { background: var(--danger-color); }
-        .btn-danger:hover { background: #c53030; }
+        .content-body { flex-grow: 1; padding: 28px 36px; overflow-y: auto; display: none; height: calc(100% - 68px); }
+        .content-body.active { display: block; animation: fadeIn 0.25s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        th, td { text-align: left; padding: 12px; border-bottom: 1px solid var(--border-color); }
-        th { color: var(--text-secondary); font-weight: 600; background: #faf9f6; }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .form-group { display: flex; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+        input, select, textarea { padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; outline: none; background: var(--bg-color); color: var(--text-main); }
+        input:focus, select:focus, textarea:focus { border-color: var(--brand-color); box-shadow: 0 0 0 3px var(--brand-light); }
         
-        [contenteditable="true"] { outline: none; border-radius: 4px; padding: 2px 6px; transition: all 0.2s; border: 1px dashed transparent; }
-        [contenteditable="true"]:hover { background: #f4f6f5; border-color: #cbd5e0; }
-        [contenteditable="true"]:focus { background: #fff; border-color: var(--brand-color); box-shadow: 0 0 0 2px rgba(90, 125, 124, 0.15); }
+        .btn { background: var(--brand-color); color: #fff; border: none; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn:hover { background: var(--brand-hover); transform: translateY(-1px); }
+        .btn-quark { background: var(--quark-color); }
+        .btn-quark:hover { opacity: 0.9; }
+        .btn-danger { background: var(--danger-color); }
+        .btn-danger:hover { opacity: 0.9; }
 
-        .moment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-        .moment-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
-        .moment-tag { display: inline-block; font-size: 11px; padding: 2px 6px; background: #eaf1f0; color: var(--brand-color); border-radius: 4px; width: fit-content; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+        th, td { text-align: left; padding: 14px; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-secondary); font-weight: 600; background: var(--bg-color); }
+        
+        [contenteditable="true"] { outline: none; border-radius: 6px; padding: 4px 8px; transition: all 0.2s; border: 1px dashed transparent; }
+        [contenteditable="true"]:hover { background: var(--bg-color); border-color: var(--border-color); }
+        [contenteditable="true"]:focus { background: var(--card-bg); border-color: var(--brand-color); box-shadow: 0 0 0 3px var(--brand-light); }
 
-        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-top: 15px; }
-        .photo-card { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: #fff; box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform 0.2s; }
-        .photo-card:hover { transform: translateY(-3px); }
-        .photo-img-wrap { width: 100%; height: 160px; background: #f4f6f5; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
-        .photo-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.2s; }
-        .photo-img-wrap::after { content: '更换图片链接'; position: absolute; background: rgba(0,0,0,0.6); color: #fff; font-size: 12px; padding: 4px 8px; border-radius: 4px; opacity: 0; transition: opacity 0.2s; }
+        .moment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+        .moment-card { border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; background: var(--card-bg); display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); }
+        .moment-tag { display: inline-block; font-size: 11.5px; padding: 3px 8px; background: var(--brand-light); color: var(--brand-color); border-radius: 6px; width: fit-content; font-weight: 600; }
+
+        .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; margin-top: 18px; }
+        .photo-card { border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; background: var(--card-bg); box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform 0.2s; }
+        .photo-card:hover { transform: translateY(-4px); }
+        .photo-img-wrap { width: 100%; height: 170px; background: var(--bg-color); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
+        .photo-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .photo-card:hover .photo-img-wrap img { transform: scale(1.05); }
+        .photo-img-wrap::after { content: '点击更换图片链接'; position: absolute; background: rgba(0,0,0,0.65); color: #fff; font-size: 12px; padding: 6px 12px; border-radius: 6px; opacity: 0; transition: opacity 0.2s; }
         .photo-img-wrap:hover::after { opacity: 1; }
-        .photo-info { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .photo-info { padding: 14px; display: flex; flex-direction: column; gap: 8px; }
 
         @media(max-width: 768px) {
             html, body { height: auto; overflow: auto; }
@@ -106,23 +162,35 @@
         <div class="nav-item" onclick="switchTab('memos', this)"><span>📝</span> 备忘录</div>
         <div class="nav-item" onclick="switchTab('music', this)"><span>🎵</span> 网易云音乐</div>
 
-        <div class="pet-house" title="你的桌宠小助手">
-            <div class="pet-item" onclick="petClick('cat')"><span class="pet-emoji">🐱</span><span>主子</span></div>
-            <div class="pet-item" onclick="petClick('dog')"><span class="pet-emoji">🐶</span><span>旺财</span></div>
-            <div class="pet-item" onclick="petClick('bunny')"><span class="pet-emoji">🐰</span><span>团子</span></div>
+        <!-- 宠物屋 -->
+        <div class="pet-house">
+            <div class="pet-dialog" id="pet-speech">🐾 点击下方萌宠互动吧！</div>
+            <div class="pet-header">
+                <div class="pet-item" onclick="petClick('cat')"><span class="pet-emoji">🐱</span><span>主子</span></div>
+                <div class="pet-item" onclick="petClick('dog')"><span class="pet-emoji">🐶</span><span>旺财</span></div>
+                <div class="pet-item" onclick="petClick('bunny')"><span class="pet-emoji">🐰</span><span>团子</span></div>
+            </div>
         </div>
     </aside>
 
     <main>
         <header>
             <div class="header-title" id="page-title"><span>📋</span> 每日计划</div>
-            <div class="header-info" id="current-date-str">加载中...</div>
+            <div class="header-right">
+                <div class="theme-switcher">
+                    <div class="theme-dot active-dot" style="background: #4a7c59;" onclick="setTheme('forest', this)" title="森林青"></div>
+                    <div class="theme-dot" style="background: #0077b6;" onclick="setTheme('ocean', this)" title="极光蓝"></div>
+                    <div class="theme-dot" style="background: #b56576;" onclick="setTheme('sakura', this)" title="樱花粉"></div>
+                    <div class="theme-dot" style="background: #273530;" onclick="setTheme('dark', this)" title="暗夜黑"></div>
+                </div>
+                <div class="header-info" id="current-date-str">加载中...</div>
+            </div>
         </header>
 
         <!-- 1. 宜家员工手册专区 -->
         <div id="tab-ikea" class="content-body">
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                     <h3>📖 宜家员工手册核心合规速查 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击表格内容直接修改)</span></h3>
                     <a href="https://pan.quark.cn" target="_blank" class="btn btn-quark">📥 夸克网盘资料库</a>
                 </div>
@@ -140,7 +208,7 @@
         <!-- 2. P&C 文化专区 -->
         <div id="tab-pc" class="content-body">
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                     <h3>👥 P&C 文化与全员领导力专区 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本即可直接修改)</span></h3>
                     <a href="https://pan.quark.cn" target="_blank" class="btn btn-quark">📥 夸克网盘资料库</a>
                 </div>
@@ -159,7 +227,7 @@
         <!-- 每日计划 -->
         <div id="tab-daily" class="content-body active">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">🐱 今日待办事项与打卡 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击任务文本直接修改)</span></h3>
+                <h3 style="margin-bottom: 16px;">🐱 今日待办事项与打卡 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击任务文本直接修改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="daily-input" placeholder="添加今天的小目标..." style="flex:1;">
                     <button class="btn" onclick="addDailyTask()">添加任务</button>
@@ -174,7 +242,7 @@
         <!-- 小红书选题 -->
         <div id="tab-xhs" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">💡 小红书兴趣选题库 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击标题直接修改)</span></h3>
+                <h3 style="margin-bottom: 16px;">💡 小红书兴趣选题库 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击标题直接修改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="xhs-title" placeholder="选题灵感 / 标题方向" style="flex:2;">
                     <select id="xhs-cat" style="flex:1;">
@@ -196,7 +264,7 @@
         <div id="tab-hr" class="content-body">
             <div class="grid-2">
                 <div class="card">
-                    <h3 style="margin-bottom: 14px;">🎯 外企 HR 岗位投递 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
+                    <h3 style="margin-bottom: 16px;">🎯 外企 HR 岗位投递 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
                     <div class="form-group">
                         <input type="text" id="hr-company" placeholder="公司名称" style="flex:1;">
                         <input type="text" id="hr-position" placeholder="岗位" style="flex:1;">
@@ -214,7 +282,7 @@
                     </table>
                 </div>
                 <div class="card">
-                    <h3 style="margin-bottom: 14px;">🐶 劳动合同法 & HR进修 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
+                    <h3 style="margin-bottom: 16px;">🐶 劳动合同法 & HR进修 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击直接改)</span></h3>
                     <div class="form-group">
                         <input type="text" id="hr-study-topic" placeholder="知识点 / 法条内容" style="flex:2;">
                         <select id="hr-study-type" style="flex:1;">
@@ -235,11 +303,11 @@
         <!-- 外企商务英语 -->
         <div id="tab-english" class="content-body">
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
                     <h3>🌐 英语八级 + 外企常用词汇 (每日 15 个打卡)</h3>
                     <div style="display: flex; gap: 8px;">
                         <button class="btn btn-danger" onclick="resetEnglishStorage()" style="padding: 6px 12px; font-size: 13px;">重置默认词库</button>
-                        <button class="btn" onclick="refreshDailyEnglish()" style="background: var(--brand-color);">🔄 手动刷新今日单词</button>
+                        <button class="btn" onclick="refreshDailyEnglish()">🔄 刷新今日单词</button>
                     </div>
                 </div>
                 <table>
@@ -248,7 +316,7 @@
                 </table>
             </div>
             <div class="card">
-                <h3 style="margin-bottom: 14px;">📚 完整商务英语词库管理 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击表格内容可直接修改)</span></h3>
+                <h3 style="margin-bottom: 16px;">📚 完整商务英语词库管理 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击表格内容可直接修改)</span></h3>
                 <div class="form-group">
                     <input type="text" id="eng-word" placeholder="商务/专八词汇" style="flex:1;">
                     <input type="text" id="eng-mean" placeholder="中文释义 / 场景" style="flex:2;">
@@ -264,7 +332,7 @@
         <!-- 生活小确幸 -->
         <div id="tab-moments" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">☕ 生活小确幸（美食、猫咪、阅读、影视） <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本可直接修改)</span></h3>
+                <h3 style="margin-bottom: 16px;">☕ 生活小确幸（美食、猫咪、阅读、影视） <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击文本可直接修改)</span></h3>
                 <div class="form-group">
                     <select id="mom-cat" style="width: 140px;">
                         <option value="🐱 养猫日常">🐱 养猫日常</option>
@@ -275,14 +343,14 @@
                     <input type="text" id="mom-desc" placeholder="写点什么记录这一刻..." style="flex:2;">
                     <button class="btn" onclick="addMoment()">记录美好</button>
                 </div>
-                <div class="moment-grid" id="moment-container" style="margin-top: 16px;"></div>
+                <div class="moment-grid" id="moment-container" style="margin-top: 18px;"></div>
             </div>
         </div>
 
         <!-- 🖼️ 个人精美相册专区 -->
         <div id="tab-photos" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">🖼️ 个人精美相册 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击图片可更换图片链接，点击文字可修改描述)</span></h3>
+                <h3 style="margin-bottom: 16px;">🖼️ 个人精美相册 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击图片可更换直链，点击文字可修改描述)</span></h3>
                 <div class="form-group">
                     <input type="text" id="photo-url" placeholder="图片直链 URL (如 https://...)" style="flex:2;">
                     <input type="text" id="photo-caption" placeholder="图片描述/标题" style="flex:2;">
@@ -295,7 +363,7 @@
         <!-- 备忘录 -->
         <div id="tab-memos" class="content-body">
             <div class="card">
-                <h3 style="margin-bottom: 14px;">📝 随手备忘录 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击内容直接修改)</span></h3>
+                <h3 style="margin-bottom: 16px;">📝 随手备忘录 <span style="font-size:12px; color:var(--text-secondary); font-weight:normal;">(✨ 点击内容直接修改)</span></h3>
                 <div class="form-group">
                     <textarea id="memo-input" placeholder="写点备忘..." style="width:100%; height:80px; resize:none;"></textarea>
                     <button class="btn" onclick="addMemo()" style="align-self: flex-end;">保存备忘</button>
@@ -318,21 +386,44 @@
     </main>
 
     <script>
+        // 主题切换功能
+        function setTheme(themeName, el) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('my_theme', themeName);
+            document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active-dot'));
+            if(el) el.classList.add('active-dot');
+        }
+        // 初始化加载保存的主题
+        const savedTheme = localStorage.getItem('my_theme') || 'forest';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.querySelectorAll('.theme-dot').forEach(d => {
+            if(d.getAttribute('onclick').includes(savedTheme)) d.classList.add('active-dot');
+            else d.classList.remove('active-dot');
+        });
+
+        // 记录当前激活的Tab，实现按需局部渲染（极大提速）
+        let currentActiveTab = 'daily';
+
         function switchTab(tabId, el) {
             document.querySelectorAll('.content-body').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
             if(el) el.classList.add('active');
             document.getElementById('page-title').innerHTML = el ? el.innerHTML : '';
+            currentActiveTab = tabId;
+            renderCurrentTab(); // 仅渲染当前激活的Tab，杜绝卡顿
         }
 
+        // 萌宠互动对话
         function petClick(type) {
             const msgs = {
-                cat: "🐱 喵~ 主人今天也要加油打工人！",
-                dog: "🐶 汪！今天面试一定会顺利通过的！",
-                bunny: "🐰 蹦蹦跳跳，记得吃好喝好哦~"
+                cat: ["🐱 喵~ 主人今天也要元气满满哦！", "🐾 摸摸猫头，工作烦恼全消~", "🐟 什么时候开饭呀，铲屎官？"],
+                dog: ["🐶 旺！相信自己，面试绝对稳过！", "🐾 冲鸭！今天也是高效的一天！", "🦴 陪我玩一会儿嘛，主人~"],
+                bunny: ["🐰 蹦蹦跳跳，好运来到~", "🥕 吃个胡萝卜补充能量！", "✨ 今天的心情也是晴空万里~"]
             };
-            alert(msgs[type]);
+            const list = msgs[type];
+            const randomMsg = list[Math.floor(Math.random() * list.length)];
+            document.getElementById('pet-speech').innerText = randomMsg;
         }
 
         const now = new Date();
@@ -362,7 +453,6 @@
         let hrJobs = safeGetStorage('my_hrjobs', [{company: '某外企FMCG', position: 'HR Assistant', status: '面试中'}]);
         let hrStudies = safeGetStorage('my_hrstudies', [{topic: '《劳动合同法》第四十条（医疗期满/不胜任解除）', type: '劳动合同法'}]);
         
-        // 默认优质丰富的英语八级 + 外企常用词汇高频词库
         const defaultEnglishWords = [
             {word: 'Talent Acquisition (TA)', mean: '人才获取/招聘，外企HR高频词'},
             {word: 'Onboarding', mean: '入职引导/新员工入职流程'},
@@ -383,12 +473,7 @@
             {word: 'Comprehensive', mean: '全面的/综合的（专八核心词）'},
             {word: 'Substantiate', mean: '证实/证明（专八高频高级词汇）'},
             {word: 'Mitigate', mean: '减轻/缓和风险（高级商务词汇）'},
-            {word: 'Prerequisite', mean: '先决条件/前提（专八核心词）'},
-            {word: 'Articulate', mean: '清晰明确地表达（专八高级词汇）'},
-            {word: 'Leverage', mean: '利用/借助...达成目标（外企高频词）'},
-            {word: 'Streamline', mean: '精简流程/使效率化（商务核心词）'},
-            {word: 'Consensus', mean: '共识/一致意见（跨部门沟通常用）'},
-            {word: 'Discretionary', mean: '自由裁量的/自主的（如可支配奖金）'}
+            {word: 'Prerequisite', mean: '先决条件/前提（专八核心词）'}
         ];
 
         let englishWords = safeGetStorage('my_english', defaultEnglishWords);
@@ -398,7 +483,6 @@
             {url: 'https://images.unsplash.com/photo-1543353071-873f17a7a088?w=500&auto=format&fit=crop', caption: '周末的咖啡与工作台 ☕'}
         ]);
         let memos = safeGetStorage('my_memos', [{text: '记得买猫砂，顺便打印简历带去面试', time: '9月9日'}]);
-
         let englishOffset = safeGetStorage('my_eng_offset', 0);
 
         function saveData() {
@@ -413,10 +497,9 @@
             localStorage.setItem('my_photos', JSON.stringify(photos));
             localStorage.setItem('my_memos', JSON.stringify(memos));
             localStorage.setItem('my_eng_offset', JSON.stringify(englishOffset));
-            renderAll();
+            renderCurrentTab();
         }
 
-        // 一键重置词库按钮
         function resetEnglishStorage() {
             if(confirm("确定要重置并恢复标准的专八+外企高频词库吗？")) {
                 englishWords = [...defaultEnglishWords];
@@ -429,24 +512,21 @@
         function refreshDailyEnglish() {
             const uniqueList = getUniqueEnglishWords();
             if (uniqueList.length === 0) return;
-            // 每次点击随机步进切换下一批并安全取模
             englishOffset = (englishOffset + 15) % uniqueList.length;
-            saveData(); // 确保保存并刷新视图
+            saveData();
         }
 
-        // 辅助函数：对当前词库按单词名称去重，防止重复显示
         function getUniqueEnglishWords() {
             const seen = new Set();
             return englishWords.filter(item => {
                 const key = item.word.trim().toLowerCase();
-                if (seen.has(key)) {
-                    return false;
-                }
+                if (seen.has(key)) return false;
                 seen.add(key);
                 return true;
             });
         }
 
+        // 数据增删改操作函数
         function addIkeaItem() {
             const topic = prompt("请输入核心板块名称:");
             const detail = prompt("请输入政策细则:");
@@ -569,6 +649,7 @@
         function deleteMemo(i) { memos.splice(i, 1); saveData(); }
         function updateMemo(i, val) { memos[i].text = val; saveData(); }
 
+        // 局部视图渲染函数（按需渲染，显著提升性能）
         function renderIkea() {
             const keyword = document.getElementById('ikea-search').value.toLowerCase();
             const filtered = ikeaRules.map((item, originalIndex) => ({item, originalIndex})).filter(({item}) => 
@@ -579,107 +660,111 @@
                     <td><strong><span contenteditable="true" onblur="updateIkea(${originalIndex}, 'topic', this.innerText)">${item.topic}</span></strong></td>
                     <td><span contenteditable="true" onblur="updateIkea(${originalIndex}, 'detail', this.innerText)">${item.detail}</span></td>
                     <td><span contenteditable="true" onblur="updateIkea(${originalIndex}, 'note', this.innerText)">${item.note}</span></td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteIkea(${originalIndex})">删</button></td>
+                    <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteIkea(${originalIndex})">删</button></td>
                 </tr>`).join('');
         }
 
-        function renderPc() {
-            document.getElementById('pc-table-body').innerHTML = pcCulture.map((p, i) => `
-                <tr>
-                    <td><strong><span contenteditable="true" onblur="updatePc(${i}, 'core', this.innerText)">${p.core}</span></strong></td>
-                    <td><span contenteditable="true" onblur="updatePc(${i}, 'desc', this.innerText)">${p.desc}</span></td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deletePc(${i})">删</button></td>
-                </tr>`).join('');
-        }
-
-        function renderAll() {
-            renderIkea();
-            renderPc();
-
-            // 渲染每日单词（使用去重后的唯一列表，保证每次刷新展示全新单词）
-            const uniqueEnglishList = getUniqueEnglishWords();
-            let dailyListHtml = '';
-            if (uniqueEnglishList.length > 0) {
-                const count = Math.min(15, uniqueEnglishList.length);
-                for (let i = 0; i < count; i++) {
-                    const index = (englishOffset + i) % uniqueEnglishList.length;
-                    const item = uniqueEnglishList[index];
-                    dailyListHtml += `
-                        <tr>
-                            <td>${i + 1}</td>
-                            <td><strong>${item.word}</strong></td>
-                            <td>${item.mean}</td>
-                        </tr>`;
-                }
-            } else {
-                dailyListHtml = `<tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">请在下方词库添加词汇</td></tr>`;
+        function renderCurrentTab() {
+            if(currentActiveTab === 'ikea') renderIkea();
+            if(currentActiveTab === 'pc') {
+                document.getElementById('pc-table-body').innerHTML = pcCulture.map((p, i) => `
+                    <tr>
+                        <td><strong><span contenteditable="true" onblur="updatePc(${i}, 'core', this.innerText)">${p.core}</span></strong></td>
+                        <td><span contenteditable="true" onblur="updatePc(${i}, 'desc', this.innerText)">${p.desc}</span></td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deletePc(${i})">删</button></td>
+                    </tr>`).join('');
             }
-            document.getElementById('eng-daily-table-body').innerHTML = dailyListHtml;
+            if(currentActiveTab === 'daily') {
+                document.getElementById('daily-table-body').innerHTML = dailyTasks.map((t, i) => `
+                    <tr>
+                        <td><span contenteditable="true" onblur="updateDaily(${i}, this.innerText)" style="${t.done?'text-decoration:line-through;color:var(--text-secondary)':''}">${t.text}</span></td>
+                        <td><input type="checkbox" ${t.done?'checked':''} onclick="toggleDaily(${i})" style="width:16px;height:16px;cursor:pointer;"></td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteDaily(${i})">删</button></td>
+                    </tr>`).join('');
+            }
+            if(currentActiveTab === 'xhs') {
+                document.getElementById('xhs-table-body').innerHTML = xhsTopics.map((x, i) => `
+                    <tr>
+                        <td><span contenteditable="true" onblur="updateXhs(${i}, this.innerText)">${x.title}</span></td>
+                        <td>${x.cat}</td>
+                        <td>${x.status}</td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteXhs(${i})">删</button></td>
+                    </tr>`).join('');
+            }
+            if(currentActiveTab === 'hr') {
+                document.getElementById('hr-job-tbody').innerHTML = hrJobs.map((j, i) => `
+                    <tr>
+                        <td><span contenteditable="true" onblur="updateHrJob(${i}, 'company', this.innerText)">${j.company}</span></td>
+                        <td><span contenteditable="true" onblur="updateHrJob(${i}, 'position', this.innerText)">${j.position}</span></td>
+                        <td>${j.status}</td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteHrJob(${i})">删</button></td>
+                    </tr>`).join('');
+                document.getElementById('hr-study-tbody').innerHTML = hrStudies.map((s, i) => `
+                    <tr>
+                        <td><span contenteditable="true" onblur="updateHrStudy(${i}, this.innerText)">${s.topic}</span></td>
+                        <td>${s.type}</td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteHrStudy(${i})">删</button></td>
+                    </tr>`).join('');
+            }
+            if(currentActiveTab === 'english') {
+                const uniqueEnglishList = getUniqueEnglishWords();
+                let dailyListHtml = '';
+                if (uniqueEnglishList.length > 0) {
+                    const count = Math.min(15, uniqueEnglishList.length);
+                    for (let i = 0; i < count; i++) {
+                        const index = (englishOffset + i) % uniqueEnglishList.length;
+                        const item = uniqueEnglishList[index];
+                        dailyListHtml += `
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td><strong>${item.word}</strong></td>
+                                <td>${item.mean}</td>
+                            </tr>`;
+                    }
+                } else {
+                    dailyListHtml = `<tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">请在下方词库添加词汇</td></tr>`;
+                }
+                document.getElementById('eng-daily-table-body').innerHTML = dailyListHtml;
 
-            document.getElementById('daily-table-body').innerHTML = dailyTasks.map((t, i) => `
-                <tr>
-                    <td><span contenteditable="true" onblur="updateDaily(${i}, this.innerText)" style="${t.done?'text-decoration:line-through;color:#a0aec0':''}">${t.text}</span></td>
-                    <td><input type="checkbox" ${t.done?'checked':''} onclick="toggleDaily(${i})" style="width:16px;height:16px;cursor:pointer;"></td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteDaily(${i})">删</button></td>
-                </tr>`).join('');
-
-            document.getElementById('xhs-table-body').innerHTML = xhsTopics.map((x, i) => `
-                <tr>
-                    <td><span contenteditable="true" onblur="updateXhs(${i}, this.innerText)">${x.title}</span></td>
-                    <td>${x.cat}</td>
-                    <td>${x.status}</td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteXhs(${i})">删</button></td>
-                </tr>`).join('');
-
-            document.getElementById('hr-job-tbody').innerHTML = hrJobs.map((j, i) => `
-                <tr>
-                    <td><span contenteditable="true" onblur="updateHrJob(${i}, 'company', this.innerText)">${j.company}</span></td>
-                    <td><span contenteditable="true" onblur="updateHrJob(${i}, 'position', this.innerText)">${j.position}</span></td>
-                    <td>${j.status}</td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteHrJob(${i})">删</button></td>
-                </tr>`).join('');
-
-            document.getElementById('hr-study-tbody').innerHTML = hrStudies.map((s, i) => `
-                <tr>
-                    <td><span contenteditable="true" onblur="updateHrStudy(${i}, this.innerText)">${s.topic}</span></td>
-                    <td>${s.type}</td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteHrStudy(${i})">删</button></td>
-                </tr>`).join('');
-
-            document.getElementById('eng-table-body').innerHTML = englishWords.map((e, i) => `
-                <tr>
-                    <td><strong><span contenteditable="true" onblur="updateEnglish(${i}, 'word', this.innerText)">${e.word}</span></strong></td>
-                    <td><span contenteditable="true" onblur="updateEnglish(${i}, 'mean', this.innerText)">${e.mean}</span></td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteEnglish(${i})">删</button></td>
-                </tr>`).join('');
-
-            document.getElementById('moment-container').innerHTML = moments.map((m, i) => `
-                <div class="moment-card">
-                    <div class="moment-tag">${m.cat}</div>
-                    <p contenteditable="true" onblur="updateMoment(${i}, this.innerText)" style="font-size:13px; color:var(--text-main); min-height:30px;">${m.desc}</p>
-                    <button class="btn btn-danger" style="padding:2px 6px;font-size:11px;width:fit-content;margin-top:auto;" onclick="deleteMoment(${i})">删除</button>
-                </div>`).join('');
-
-            document.getElementById('photo-container').innerHTML = photos.map((p, i) => `
-                <div class="photo-card">
-                    <div class="photo-img-wrap" onclick="updatePhotoUrl(${i})" title="点击更换图片链接">
-                        <img src="${p.url}" alt="${p.caption}" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&auto=format&fit=crop'">
-                    </div>
-                    <div class="photo-info">
-                        <p contenteditable="true" onblur="updatePhotoCaption(${i}, this.innerText)" style="font-size:13px; font-weight:600; color:var(--text-main);">${p.caption}</p>
-                        <button class="btn btn-danger" style="padding:2px 6px;font-size:11px;width:fit-content;margin-top:4px;" onclick="deletePhoto(${i})">删除图片</button>
-                    </div>
-                </div>`).join('');
-
-            document.getElementById('memo-table-body').innerHTML = memos.map((m, i) => `
-                <tr>
-                    <td><span contenteditable="true" onblur="updateMemo(${i}, this.innerText)">${m.text}</span></td>
-                    <td>${m.time}</td>
-                    <td><button class="btn btn-danger" style="padding:2px 8px;font-size:12px;" onclick="deleteMemo(${i})">删</button></td>
-                </tr>`).join('');
+                document.getElementById('eng-table-body').innerHTML = englishWords.map((e, i) => `
+                    <tr>
+                        <td><strong><span contenteditable="true" onblur="updateEnglish(${i}, 'word', this.innerText)">${e.word}</span></strong></td>
+                        <td><span contenteditable="true" onblur="updateEnglish(${i}, 'mean', this.innerText)">${e.mean}</span></td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteEnglish(${i})">删</button></td>
+                    </tr>`).join('');
+            }
+            if(currentActiveTab === 'moments') {
+                document.getElementById('moment-container').innerHTML = moments.map((m, i) => `
+                    <div class="moment-card">
+                        <div class="moment-tag">${m.cat}</div>
+                        <p contenteditable="true" onblur="updateMoment(${i}, this.innerText)" style="font-size:13.5px; color:var(--text-main); min-height:35px; line-height: 1.4;">${m.desc}</p>
+                        <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;width:fit-content;margin-top:auto;" onclick="deleteMoment(${i})">删除</button>
+                    </div>`).join('');
+            }
+            if(currentActiveTab === 'photos') {
+                document.getElementById('photo-container').innerHTML = photos.map((p, i) => `
+                    <div class="photo-card">
+                        <div class="photo-img-wrap" onclick="updatePhotoUrl(${i})" title="点击更换图片链接">
+                            <img src="${p.url}" alt="${p.caption}" onerror="this.src='https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=500&auto=format&fit=crop'">
+                        </div>
+                        <div class="photo-info">
+                            <p contenteditable="true" onblur="updatePhotoCaption(${i}, this.innerText)" style="font-size:13.5px; font-weight:600; color:var(--text-main);">${p.caption}</p>
+                            <button class="btn btn-danger" style="padding:3px 8px;font-size:11px;width:fit-content;margin-top:6px;" onclick="deletePhoto(${i})">删除图片</button>
+                        </div>
+                    </div>`).join('');
+            }
+            if(currentActiveTab === 'memos') {
+                document.getElementById('memo-table-body').innerHTML = memos.map((m, i) => `
+                    <tr>
+                        <td><span contenteditable="true" onblur="updateMemo(${i}, this.innerText)">${m.text}</span></td>
+                        <td>${m.time}</td>
+                        <td><button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="deleteMemo(${i})">删</button></td>
+                    </tr>`).join('');
+            }
         }
 
-        renderAll();
+        // 首次加载初始化当前视图
+        renderCurrentTab();
     </script>
 </body>
 </html>
