@@ -152,6 +152,7 @@
     <aside>
         <div class="logo-area">🐾 个人数字工作台</div>
         <div class="nav-item active" onclick="switchTab('daily', this)"><span>📋</span> 每日计划</div>
+        <div class="nav-item" onclick="switchTab('diet', this)"><span>🥗</span> 减脂塑形计划</div>
         <div class="nav-item" onclick="switchTab('ikea', this)"><span>📖</span> 宜家员工手册</div>
         <div class="nav-item" onclick="switchTab('pc', this)"><span>👥</span> P&C 领导力专区</div>
         <div class="nav-item" onclick="switchTab('xhs', this)"><span>💡</span> 小红书轻量选题</div>
@@ -187,7 +188,81 @@
             </div>
         </header>
 
-        <!-- 1. 宜家员工手册专区 -->
+        <!-- 1. 减脂塑形计划 (新增) -->
+        <div id="tab-diet" class="content-body">
+            <div class="card">
+                <h3 style="margin-bottom: 8px;">🥗 个人定制减脂塑形方案（161cm / 49kg 维持与线条优化）</h3>
+                <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
+                    ✨ <strong>核心原则</strong>：口味清淡为主，兼顾经期温柔滋补（红糖姜茶、银耳汤等汤汤水水），每周预留1-2次重口味解馋（如螺蛳粉，注意汤底适量少喝），运动主打低冲击、肩颈跟练、仰卧起坐核心及周末拉丁舞。
+                </p>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="margin-bottom: 14px;">📅 一周三餐与运动日程表</h3>
+                    <table>
+                        <thead><tr><th>星期</th><th>运动安排 (低冲击/跟练)</th><th>三餐核心搭配参考</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>周一</strong></td>
+                                <td>居家肩颈拉伸 (15分钟) + 轻松平板支撑</td>
+                                <td><strong>早</strong>: 水煮蛋+全麦面包+黑咖啡<br><strong>午</strong>: 清蒸鱼+时令绿叶菜+杂粮饭<br><strong>晚</strong>: 番茄豆腐汤+虾仁</td>
+                            </tr>
+                            <tr>
+                                <td><strong>周二</strong></td>
+                                <td>仰卧起坐/卷腹核心训练 (15分钟)</td>
+                                <td><strong>早</strong>: 燕麦粥+水煮蛋<br><strong>午</strong>: 鸡胸肉沙拉（油醋汁）<br><strong>晚</strong>: 菌菇清汤+清炒时蔬</td>
+                            </tr>
+                            <tr>
+                                <td><strong>周三</strong></td>
+                                <td>办公室/居家肩颈放松跟练</td>
+                                <td><strong>早</strong>: 蒸紫薯+无糖豆浆<br><strong>午</strong>: 牛肉片+西兰花+荞麦面<br><strong>晚</strong>: 银耳百合汤+清炒小白菜</td>
+                            </tr>
+                            <tr>
+                                <td><strong>周四</strong></td>
+                                <td>低冲击全身轻燃脂跟练 (20分钟)</td>
+                                <td>🍜 <strong style="color:var(--brand-color);">重口味解馋日</strong>：螺蛳粉（配料全放，汤底不喝完，加个水煮蛋和青菜）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>周五</strong></td>
+                                <td>睡前拉伸与核心放松</td>
+                                <td><strong>早</strong>: 全麦三明治+牛奶<br><strong>午</strong>: 虾仁蒸蛋+清炒时蔬+紫薯<br><strong>晚</strong>: 冬瓜海带汤+少量瘦肉</td>
+                            </tr>
+                            <tr>
+                                <td><strong>周六</strong></td>
+                                <td>自由休息 / 逛街轻有氧</td>
+                                <td>🍵 <strong style="color:var(--brand-color);">周末轻享日</strong>：午餐清淡，下午茶可适量享受甜品/奶茶（三分糖或代糖）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>周日</strong></td>
+                                <td>💃 <strong style="color:var(--brand-color);">拉丁舞课 (1小时)</strong></td>
+                                <td><strong>早</strong>: 营养全麦卷<br><strong>午</strong>: 丰富碳水与蛋白质补充<br><strong>晚</strong>: 温暖轻食汤面</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 14px;">🌸 特殊时期与解馋应变指南</h3>
+                    <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13.5px; line-height: 1.5; color: var(--text-main);">
+                        <div style="background: var(--bg-color); padding: 12px; border-radius: 10px; border-left: 4px solid var(--brand-color);">
+                            <strong>🔴 姨妈期饮食调理：</strong><br>
+                            想吃甜食和汤汤水水时，不要强行压抑。可选择：红糖姜茶、银耳红枣羹、黑糖芋圆汤或温热的豆浆。主食换成暖胃的汤面或小米粥，避免生冷，运动暂停，改为轻柔保暖。
+                        </div>
+                        <div style="background: var(--bg-color); padding: 12px; border-radius: 10px; border-left: 4px solid #d9534f;">
+                            <strong>🌶️ 重口味（螺蛳粉/火锅）解馋法则：</strong><br>
+                            一周安排1-2次完全没问题！诀窍在于：
+                            1. 正常享受美味，但**螺蛳粉的汤底不要大口喝完**（减少钠摄入，第二天不易水肿）。
+                            2. 额外在粉里烫一把青菜和一颗鸡蛋，补充膳食纤维与蛋白质，营养更均衡。
+                        </div>
+                        <div style="background: var(--bg-color); padding: 12px; border-radius: 10px; border-left: 4px solid #0077b6;">
+                            <strong>💪 居家运动小建议：</strong><br>
+                            因为你不爱剧烈运动，仰卧起坐和肩颈跟练非常合适。注意仰卧起坐时保护腰椎，尽量用腹部发力；肩颈跟练每天10-15分钟，能有效改善长期伏案（或HR日常办公）带来的疲劳。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 宜家员工手册专区 -->
         <div id="tab-ikea" class="content-body">
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
@@ -205,7 +280,7 @@
             </div>
         </div>
 
-        <!-- 2. P&C 文化专区 -->
+        <!-- 3. P&C 文化专区 -->
         <div id="tab-pc" class="content-body">
             <div class="card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
